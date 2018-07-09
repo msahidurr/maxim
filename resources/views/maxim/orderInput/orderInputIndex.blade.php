@@ -71,9 +71,9 @@
 		            	<thead>
 		            		<tr>
 		            			<td>Order Date</td>
-		            			<td>Order No</td>
+		            			<td>OS</td>
 		            			<td>Shipment Date</td>
-		            			<td>PO Cat NO</td>
+		            			<td>PO/Cat NO</td>
 		            		</tr>
 		            	</thead>
 						<tbody>
@@ -86,7 +86,7 @@
 
 								<td>
 									<div class="form-group">
-										<input type="text" name="orderNo" class="form-control" placeholder="Order No" title="Order No">
+										<input type="text" name="orderNo" class="form-control" placeholder="OS" title="OS No">
 									</div>
 								</td>
 

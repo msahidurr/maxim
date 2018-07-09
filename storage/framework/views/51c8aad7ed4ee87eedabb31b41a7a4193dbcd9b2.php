@@ -4,7 +4,9 @@
 		<a href="#" onclick="myFunction()"  class="print">Print & Preview</a>
 	</center>
 
+	<?php ($i=0); ?>
 	<?php $__currentLoopData = $headerValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+	<?php for($i;$i <= 0;$i++): ?>
 	<div class="row">
 		<div class="col-md-2 col-sm-2 col-xs-2">
 			<?php if($value->logo_allignment == "left"): ?>
@@ -31,6 +33,7 @@
 			<?php endif; ?>
 		</div>
 	</div>
+	<?php endfor; ?>
 	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 	<div class="row header-bottom">
 		<div class="col-md-12 header-bottom-b">
@@ -41,14 +44,16 @@
 	<div class="row body-top">
 		<div class="col-md-8 col-sm-8 col-xs-7 body-list">
 					<?php ($i=0); ?>
-					<?php $__currentLoopData = $multipleChallan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $Datils): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+					<?php $__currentLoopData = $buyerDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $Details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 					<?php for($i;$i <= 0;$i++): ?>
 						<ul>
-							<li>Buyer : <?php echo e($Datils->name_buyer); ?></li>
-							<li>Sold To : <?php echo e($Datils->name); ?></li>
-							<li><?php echo e($Datils->address); ?></li>
-							<li>Atten : <?php echo e($Datils->attention_invoice); ?></li>
-							<li>Cell : <?php echo e($Datils->mobile_invoice); ?></li>
+							<li>Buyer : <?php echo e($Details->buyer_name); ?></li>
+							<li>Sold To : <?php echo e($Details->Company_name); ?></li>
+							<li><?php echo e($Details->address_part1_invoice); ?>
+
+						<?php echo e($Details->address_part2_invoice); ?></li>
+							<li>Atten : <?php echo e($Details->attention_invoice); ?></li>
+							<li>Cell : <?php echo e($Details->mobile_invoice); ?></li>
 						</ul>
 					<?php endfor; ?>
 					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -5,7 +5,9 @@
 		<a href="#" onclick="myFunction()"  class="print">Print & Preview</a>
 	</center>
 
+	@php($i=0)
 	@foreach($headerValue as $value)
+	@for($i;$i <= 0;$i++)
 	<div class="row">
 		<div class="col-md-2 col-sm-2 col-xs-2">
 			@if($value->logo_allignment == "left")
@@ -32,6 +34,7 @@
 			@endif
 		</div>
 	</div>
+	@endfor
 	@endforeach
 	<div class="row header-bottom">
 		<div class="col-md-12 header-bottom-b">
@@ -42,14 +45,15 @@
 	<div class="row body-top">
 		<div class="col-md-8 col-sm-8 col-xs-7 body-list">
 					@php($i=0)
-					@foreach($multipleChallan as $Datils)
+					@foreach($buyerDetails as $Details)
 					@for($i;$i <= 0;$i++)
 						<ul>
-							<li>Buyer : {{$Datils->name_buyer}}</li>
-							<li>Sold To : {{$Datils->name}}</li>
-							<li>{{$Datils->address}}</li>
-							<li>Atten : {{$Datils->attention_invoice}}</li>
-							<li>Cell : {{$Datils->mobile_invoice}}</li>
+							<li>Buyer : {{$Details->buyer_name}}</li>
+							<li>Sold To : {{$Details->Company_name}}</li>
+							<li>{{$Details->address_part1_invoice}}
+						{{$Details->address_part2_invoice}}</li>
+							<li>Atten : {{$Details->attention_invoice}}</li>
+							<li>Cell : {{$Details->mobile_invoice}}</li>
 						</ul>
 					@endfor
 					@endforeach
