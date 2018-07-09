@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\RoleManagement;
 use Illuminate\Http\Request;
 use App\Model\MxpBookingChallan;
-
+use App\Model\MxpBookingMultipleChallan;
 use App\Model\MxpMultipleChallan;
 use App\Model\MxpChallan;
 use Carbon\Carbon;
@@ -71,33 +71,6 @@ class ChallanController extends Controller
         return \Redirect()->Route('dashboard_view');
       }
 
-
-      /** this code only for Challan increment id genarate **/
-
-      $maxIncrement = DB::select("select max(incrementValue) from Mxp_multipleChallan group by incrementValue");
-        if(sizeof($maxIncrement) == 0){
-            $number = 0;
-        }else{
-          foreach ($maxIncrement as $value) {
-            foreach ($value as $key => $aa) {
-                $number = intval($aa);
-            }
-        }  
-        }
-      $incrementValue = self::autoInrement($number);
-
-      $findSortNames = "";
-      foreach ($mainData as $keys => $sortNames) {
-        $findSortName = DB::select(" select sort_name from mxp_challan where id ='".$keys."'");
-        foreach ($findSortName as $value) {
-          $findSortNames = $value;
-        }
-      }
-      $MultipleChallanUniqueID = "CHA-".Carbon::now()->format('Ymd')."-".$findSortNames->sort_name."-".$incrementValue;
-      $MultipleCheckingUniqueID = "CHK-".Carbon::now()->format('Ymd')."-".$findSortNames->sort_name."-".$incrementValue;
-
-      /** End this code only for Challan increment id genarate **/
-
       /**
       - This Section create to concat all Get input
       - value by item id and store $tempValue Array.
@@ -138,12 +111,8 @@ class ChallanController extends Controller
           $dbValue[] = $item;
         }
       }
-      //   print_r("<pre>");
-      //   print_r($twoArray);
-      // self::print_me($dbValue);
 
       $combineUpdateData = array_combine($dbValue, $twoArray);
-      // self::print_me($combineUpdateData);
       
       foreach ($combineUpdateData as $keys => $datas) {
         $finalData[] = $keys - $datas;  //finalData[] is same as twoArray[]
@@ -160,9 +129,11 @@ class ChallanController extends Controller
 
       $challanTableUpdate = array_combine($one_uniq, $tempValues);
       $count_challan = 1;
+      $booking_order_id = '';
       foreach ($challanTableUpdate as $key => $value) {
         $count = DB::select(" select * from mxp_booking_challan where id ='".$key."'");
         foreach ($count as $countvalue) {
+          $booking_order_id = $countvalue->booking_order_id;
           $findChallanUpdateData = MxpBookingChallan::find($key);
           $findChallanUpdateData->item_quantity = $value;
           // $findChallanUpdateData->count_challan = $count_challan + $countvalue->count_challan;
@@ -172,6 +143,23 @@ class ChallanController extends Controller
       }
 
       /** End this code for update mxp_booking_Challan Table  **/
+
+      /** this code only for Challan increment id genarate **/
+
+      $companySortName = '';
+      $buyerDetails = DB::table("mxp_bookingBuyer_details")->where('booking_order_id',$booking_order_id)->get();
+      foreach ($buyerDetails as $getSortCname) {
+          $companySortName = $getSortCname->C_sort_name;
+      }
+
+      // $cc = MxpBookingMultipleChallan::count();
+      $cc = MxpMultipleChallan::count();
+      $count = str_pad($cc + 1, 4, 0, STR_PAD_LEFT);
+      $id = "M-CHA"."-";
+      $date = date('dmY') ;
+      $MultipleChallanUniqueID = $id.$date."-".$companySortName."-".$count;
+
+      /** End this code only for Challan increment id genarate **/
 
 		foreach ($mainData as $key => $value) {
 		$findChallan = DB::select(" select * from mxp_booking_challan where id ='".$key."'");
@@ -207,14 +195,15 @@ class ChallanController extends Controller
 
     	$headerValue = DB::select("select * from mxp_header");
     	$multipleChallan = DB::select(" select * from Mxp_multipleChallan where challan_id ='".$MultipleChallanUniqueID."'");
-
+      $buyerDetails = DB::table("mxp_bookingBuyer_details")->where('booking_order_id',$booking_order_id)->get();
     	$footerData = DB::select("select * from mxp_reportFooter");
 
     	return view('maxim.challan.challanBoxingPage',
         [
         	'footerData' => $footerData,
-        	'headerValue' => $headerValue,
-        	'multipleChallan' => $multipleChallan,
+          'headerValue' => $headerValue,
+        	'buyerDetails' => $buyerDetails,
+        	'multipleChallan' => $multipleChallan
         ]);
     }
 }
