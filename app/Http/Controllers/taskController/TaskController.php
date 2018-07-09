@@ -127,12 +127,28 @@ class TaskController extends Controller
             echo "MRFDDDDD";
          }elseif($taskType === 'challan'){
 
+            $validMessages = [
+                    'bookingId.required' => 'Booking Id field is required.'
+                    ];
+            $validator = Validator::make($datas, 
+                [
+                    'bookingId' => 'required',
+                ],
+                $validMessages
+            );
+
+            if ($validator->fails()) {
+                return redirect()->back()->withInput($request->input())->withErrors($validator->messages());
+            }
+
+            $validationError = $validator->messages();
+
             $bookingDetails = DB::select("SELECT *,GROUP_CONCAT(item_size) as itemSize, GROUP_CONCAT(item_quantity) as quantity FROM mxp_booking_challan WHERE booking_order_id = '".$request->bookingId."' GROUP BY item_code");
 
             $buyerDetails = DB::select("SELECT * FROM mxp_bookingBuyer_details WHERE booking_order_id = '".$request->bookingId."'");
 
             if(empty($bookingDetails)){
-                StatusMessage::create('empty_booking_data', 'This booking Id doesnot show any result . Please check booking Id !');
+                StatusMessage::create('empty_booking_data', 'This booking Id does not show any result . Please check booking Id !');
 
                 return \Redirect()->Route('dashboard_view');
             }

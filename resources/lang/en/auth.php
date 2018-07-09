@@ -154,7 +154,7 @@ return [
 'mxp_menu_lc_purchase' => 'LC Purchase',
 'mxp_view_btn' => 'view result',
 'mxp_menu_management' => 'Management',
-'mxp_menu_product_list' => 'Product List',
+'mxp_menu_product_list' => 'Item List',
 'product_description_label' => 'Item Description',
 'product_brand_label' => 'Brand',
 'product_erp_code_label' => 'ERP Code',

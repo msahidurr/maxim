@@ -92,7 +92,7 @@
                                 </label>
                                 <div class="col-md-6">
                                     <select name="piFormat" class="form-control" disabled="true" id="piFormat">
-                                        <option></option>
+                                        <option>Choose Format</option>
                                         <option value="1001">CRAGHOPPERS</option>
                                         <option value="1002">REGATTA</option>
                                         <option value="1003">DARE2B</option>
@@ -101,7 +101,7 @@
                                 </div>                        
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group orderId">
                                 <label class="col-md-4 control-label">
                                     <span class="pull-right">Order Id</span>
                                 </label>
@@ -115,7 +115,7 @@
                                     <span class="pull-right">IPO Increase</span>
                                 </label>
                                 <div class="col-md-6">
-                                    <input type="text" name="ipoIncrease" class="form-control" disabled="true" id="ipoIncrease">
+                                    <input type="text" name="ipoIncrease" class="form-control" disabled="true" id="ipoIncrease" placeholder="Increase Value">
                                 </div>
                             </div>
 

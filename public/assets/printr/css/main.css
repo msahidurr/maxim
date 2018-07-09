@@ -60,7 +60,7 @@ ul li {
 }
 .colspan-td .middel-table table td {
   border: 1px solid #DBDBDB; 
-  padding: 5PX;
+  padding: 15PX;
 }
 .colspan-td .middel-table table tr:first-child td {
   border-top: 0;

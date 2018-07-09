@@ -1,30 +1,56 @@
 @extends('maxim.layouts.layouts')
 @section('print-body')
-<center>
-	<a href="#" onclick="myFunction()" class="print">Print & Preview</a>
-</center>
+
+<style type="text/css">
+	.header-top-a .buyerName{
+		padding-left: 40px;
+	}
+	.valueGenarate table{
+		width: 100%;
+	}
+	.valueGenarate table tr td{
+		text-align: right;
+		padding-right: 5px;
+	}
+	.valueGenarate table tr td p{
+		font-weight: bold;
+	}
+	.mainBody table thead>th{
+		align: center;
+	}
+	.mainBody .grandTotal{
+		text-align: center;
+	}
+	.mainBody .grandTotal span{
+		font-weight: bold;
+	}
+</style>
+
+	<center>
+		<a href="#" onclick="myFunction()" class="print">Print & Preview</a>
+	</center>
 
 
 	@foreach($buyerDetails as $details)
-		<div class="row">
-			<div class="col-md-2">
+		<div class="row header-top-a">
+			<div class="col-md-2 col-sm-2">
 				
 			</div>
-			<div class="col-md-8" style="padding-left: 40px;">
+			<div class="col-md-8 col-sm-8 buyerName">
 				<h2 align="center">{{$details->buyer_name}}</h2>
 			</div>
-			<div class="col-md-2"></div>
+			<div class="col-md-2 col-sm-2"></div>
 		</div>
 	@endforeach
 	<div class="row header-bottom">
-		<div class="col-md-12 header-bottom-b">
+		<div class="col-md-12 col-sm-12 header-bottom-b">
 			<span>Internal Purchase Order</span>
 		</div>
 		<hr>
 	</div>
 
 	<div class="row body-top">
-		<div class="col-md-6 col-xs-7 body-list">
+		<div class="col-md-6 col-sm-6 col-xs-7 body-list">
 			@foreach($buyerDetails as $details)
 				<ul>
 					<li><strong>Booking ID: {{$details->booking_order_id}}</strong></li>
@@ -34,23 +60,23 @@
 			@endforeach
 		</div>
 		
-		<div class="col-md-6 col-xs-5">
+		<div class="col-md-6 col-sm-6 col-xs-5 valueGenarate">
 			@php ($i=0)
 			@foreach ($sentBillId as $billdata)
 				@for($i;$i <= 0;$i++)
-				<table class="tables table-bordered" style="width: 100%;">
-					<tr >
+				<table class="tables table-bordered">
+					<tr>
 						<td colspan="2">
-							<div style="text-align: right;">
-								<p style="padding-left :5px;"><strong>MAY PORTION</strong></p>
+							<div>
+								<p>MAY PORTION</p>
 							</div>
 						</td>
 					</tr>
 					
 					<tr>
 						<td colspan="2">
-							<div style="text-align: right;">
-								<p style="padding-left :5px;">Checking No : {{$billdata->ipo_id}}</p>
+							<div>
+								<p>Checking No : {{$billdata->ipo_id}}</p>
 							</div>
 						</td>
 					</tr>
@@ -60,30 +86,23 @@
 			
 		</div>
 	</div>
-<?php 
-	if($initIncrease == ''){
-		$increase = 2;
-	}else{
-		$increase = $initIncrease;
-	}
-?>
-<table class="table table-bordered">
-	      
+<?php $increase = $initIncrease; ?>
+<table class="table table-bordered mainBody">
     <thead>
     	<tr>
         	<th width="5%">SI</th>
         	<th width="10%">PO/CAT</th>
         	<th width="10%">Item code</th>
         	<th width="15%">Description</th>
+        	<th width="10%">Size</th>
         	<th width="10%">TOTAL PCS/MTR</th>
         	<th width="10%">{{$increase}}%</th>
         	<th width="10%">1ST DELIVERY</th>
             <th width="10%">Request Date</th>
             <th width="10%">Confirmation Date</th>
-            <th width="10%">Supllier</th>
         </tr>
-       </thead>
-        <tbody> 
+    </thead>
+    <tbody> 
     	<?php
     		$j = 1;
     		$totalAllQty = 0;
@@ -122,27 +141,29 @@
 	    				<td rowspan="{{$itemlength}}">{{$item->item_code}}</td>
 	    				<td rowspan="{{$itemlength}}">{{$item->erp_code}}</td>			    		
 			    			@if ($itemlength >= 1 )
-				    			<td colspan="1" class="colspan-td">  				
-				    				<table>
+				    			<td colspan="2" class="colspan-td">  				
+				    				<table >
 				    					@foreach ($itemQtyValue as $size => $Qty)
 				    					<?php 
 				    						$i++;
 				    						$totalQty += $Qty; 
 				    					?>
 				    					<tr>
-				    						<!-- <td width="50%">{{$size}}</td> -->
+				    						<td width="50%">{{$size}}</td>
 							    			<td width="50%">{{$Qty}}</td>
 				    					</tr>
 				    					@endforeach
 
 				    					@if( $i > 1 )
 				    					<tr>
+				    						<td></td>
 				    						<td width="100%">{{$i}}{{$totalQty}}</td>
 				    					</tr>
 				    					@endif
 				    				</table>
 				    			</td>
-				    			<td colspan="1" class="colspan-td">  				
+				    			<td class="colspan-td">
+				    			<div class="middel-table">
 				    				<table>
 				    					@foreach ($itemQtyValue as $size => $Qty)
 				    					<?php 
@@ -150,8 +171,8 @@
 				    						$totalIncrQty += ceil(($Qty*$increase)/100 + $Qty); 
 				    					?>
 				    					<tr>
-
-							    			<td width="100%">{{ceil(($Qty*$increase)/100 + $Qty)}}</td>
+							    			<td width="100%">{{ceil(($Qty*$increase)/100 + $Qty)}}
+							    			</td>
 				    					</tr>
 				    					@endforeach
 
@@ -161,6 +182,7 @@
 				    					</tr>
 				    					@endif
 				    				</table>
+				    				</div> 				
 				    			</td>
 				    		@endif			    		   
 			    		<?php 
@@ -172,15 +194,17 @@
     						{{Carbon\Carbon::parse($billdata->created_at)->format('d-m-Y')}}
     					</td>
     					<td></td>
-    					<td></td>
 	    			</tr>
     		@endforeach
     	
     	<tr>
-			<td colspan="4"><div style="text-align: center; font-weight: bold;font-size: ;"><span>GRAND TOTAL</span></div></td>
+			<td colspan="5">
+				<div class="grandTotal" style="">
+					<span>GRAND TOTAL</span>
+				</div>
+			</td>
 			<td>{{$totalAllQty}}</td>
 			<td>{{$totalAllIncrQty}}</td>
-			<td></td>
 			<td></td>
 			<td></td>
 			<td></td>
@@ -214,6 +238,15 @@
 
 <script type="text/javascript">
 	function myFunction() {
+		$('.colspan-td table').css('font-family','arial, sans-serif');
+		$('.colspan-td table').css('border-collapse','collapse');
+		$('.colspan-td table').css('width','100%');
+		$('.colspan-td table td').css('border','1px solid #DBDBDB');
+		$('.colspan-td table td').css('padding','5px');
+		$('.colspan-td table tr:first-child td').css('border-top', '0');
+		$('.colspan-td table tr td:first-child').css('border-left', '0');
+		$('.colspan-td table tr:last-child td').css('border-bottom', '0');
+		$('.colspan-td table tr td:last-child').css('border-right', '0');
 	    window.print();
 	}
 </script>
