@@ -77,6 +77,7 @@ class ProductController extends Controller
     	$createProduct->weight_amt = $request->p_weight_amt;
         $createProduct->user_id = Auth::user()->user_id;
         $createProduct->status = $request->is_active;
+        $createProduct->others_color = $request->others_color;
     	$createProduct->action = self::CREATE_PRODUCT;
     	$createProduct->save();
 
@@ -120,7 +121,8 @@ class ProductController extends Controller
     	// $updateProduct->description_3 = $request->p_description3;
         // $updateProduct->description_4 = $request->p_description4;
         $updateProduct->user_id = Auth::user()->user_id;
-    	$updateProduct->status = $request->is_active;
+        $updateProduct->status = $request->is_active;
+    	$updateProduct->others_color = $request->others_color;
         $updateProduct->action = self::CREATE_PRODUCT;
     	$updateProduct->save();
 

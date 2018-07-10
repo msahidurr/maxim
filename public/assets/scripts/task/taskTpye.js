@@ -51,6 +51,8 @@ $(document).ready(function(){
 
 			$('.buyer_company').addClass('hidden');
 			$('.ipo_increase').addClass('hidden');
+			$('.buyerChange').addClass('hidden');
+			$('.piFormatH').addClass('hidden');
 
 		}else if(selectedValue === 'challan'){
 

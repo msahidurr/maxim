@@ -24,14 +24,14 @@ trans('others.add_product_label'))
                             		<div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_code_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control  input_required" name="p_code" value="{{old('p_code')}}">
+		                                    <input type="text" class="form-control  input_required" name="p_code" value="{{old('p_code')}}" placeholder="Item code">
 		                                </div>
 		                            </div>
 
 		                            <div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_name_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control" name="p_name" value="{{old('p_name')}}">
+		                                    <input type="text" class="form-control" name="p_name" value="{{old('p_name')}}" placeholder="Item Name">
 		                                </div>
 		                            </div>
 
@@ -40,7 +40,7 @@ trans('others.add_product_label'))
 		                            <div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_description_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control" name="p_description" value="{{old('p_description')}}">
+		                                    <input type="text" class="form-control" name="p_description" value="{{old('p_description')}}" placeholder="Description">
 		                                </div>
 		                            </div>
 
@@ -48,7 +48,7 @@ trans('others.add_product_label'))
 		                                <label class="col-md-4 control-label">{{ trans('others.product_brand_label') }}</label>
 		                               <div class="col-md-6">
 		                                    <select class="form-control" name="p_brand" value="">                   
-		                                         <option value="{{old('p_brand')}}">{{old('p_brand')}}</option>
+		                                         <option value="{{old('p_brand')}}">{{(!empty(old('p_brand'))) ? old('p_brand') :"Choose Brand"}}</option>
 
 		                                         @foreach($brands as $brand)
 		                                         <option value="{{$brand->brand_name}}">{{$brand->brand_name}}</option>
@@ -57,6 +57,12 @@ trans('others.add_product_label'))
 		                                </div>
 		                            </div>
 
+		                            <!-- <div class="form-group">
+		                                <label class="col-md-4 control-label">{{ trans('others.others_color_label') }}</label>
+		                                <div class="col-md-6">
+		                                    <input type="text" class="form-control" name="others_color" value="{{old('others_color')}}" placeholder="Others Color">
+		                                </div>
+		                            </div> -->
 		                            
                             	</div>
 
@@ -65,43 +71,47 @@ trans('others.add_product_label'))
                             		<div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_erp_code_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control input_required" name="p_erp_code" value="{{old('p_erp_code')}}">
+		                                    <input type="text" class="form-control input_required" name="p_erp_code" value="{{old('p_erp_code')}}" placeholder="ERP code">
 		                                </div>
 		                            </div>
 
 		                            <div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_unit_price_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control" name="p_unit_price" value="{{old('p_unit_price')}}">
+		                                    <input type="text" class="form-control" name="p_unit_price" value="{{old('p_unit_price')}}" placeholder="Unit Price">
 		                                </div>
 		                            </div>
 
                             		<div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_weight_qty_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control" name="p_weight_qty" value="{{old('p_weight_qty')}}">
+		                                    <input type="text" class="form-control" name="p_weight_qty" value="{{old('p_weight_qty')}}" placeholder="Weight QTY">
 		                                </div>
 		                            </div>
 
 		                            <div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_weight_amt_label') }}</label>
 		                                <div class="col-md-6">
-		                                    <input type="text" class="form-control" name="p_weight_amt" value="{{old('p_weight_amt')}}">
+		                                    <input type="text" class="form-control" name="p_weight_amt" value="{{old('p_weight_amt')}}" placeholder="Weight AMT">
 		                                </div>
-		                            </div>                                                  
+		                            </div>
+
+		                            <div class="form-group">
+		                            	<label class="col-md-4 control-label"></label>
+		                                <div class="col-sm-6">
+		                                    <div class="select">
+		                                        <select class="form-control" type="select" name="is_active" >
+		                                            <option  value="1" name="is_active" >{{ trans('others.action_active_label') }}</option>
+		                                            <option value="0" name="is_active" >{{ trans('others.action_inactive_label') }}</option>
+		                                        </select>
+		                                    </div>
+		                                </div>
+		                            </div>
+
                             	</div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-sm-3 col-sm-offset-8">
-                                    <div class="select">
-                                        <select class="form-control" type="select" name="is_active" >
-                                            <option  value="1" name="is_active" >{{ trans('others.action_active_label') }}</option>
-                                            <option value="0" name="is_active" >{{ trans('others.action_inactive_label') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                             <div class="form-group">
 	                            <div class="col-sm-offset-10 col-xs-offset-8">

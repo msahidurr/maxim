@@ -805,13 +805,23 @@ Route::group(['middleware' => 'auth'], function () {
                 'as'=>'multiple_challan_action_task',
                 'uses'=>'taskController\ChallanController@addChallan'
             ]);
-	    });
 
+
+            /** there are all MRF routes here **/
+
+            Route::POST('task/mrf/task',
+            [
+                'as'=>'mrf_action_task',
+                'uses'=>'taskController\MrfController@addMrf'
+            ]);
+
+            /** there are all task routes here **/
 	    Route::any('/get/buyer/company',
             [
                 'as'=>'get_buyer_company',
                 'uses'=>'taskController\TaskController@getBuyerCompany'
             ]);
+	    });
 	});
 
 	/*there are all Production Routes*/
@@ -824,6 +834,12 @@ Route::group(['middleware' => 'auth'], function () {
             [
                 'as'=>'booking_list_view',
                 'uses'=>'taskController\BookingListController@bookingListView'
+            ]);
+
+            Route::get('mrf/list/list',
+            [
+                'as'=>'mrf_list_view',
+                'uses'=>'taskController\MrfListController@mrfListView'
             ]);
 	    });
 	});

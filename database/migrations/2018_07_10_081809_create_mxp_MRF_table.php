@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBookingChallanTable extends Migration
+class CreateMxpMRFTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,16 @@ class CreateBookingChallanTable extends Migration
      */
     public function up()
     {
-        Schema::create('mxp_booking_challan', function (Blueprint $table) {
+        Schema::create('mxp_MRF_table', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('challan_id');
+            $table->string('mrf_id');
             $table->string('booking_order_id');
             $table->string('erp_code')->nullable(true);
             $table->string('item_code')->nullable(true);
             $table->string('item_size')->nullable(true);
             $table->string('item_description')->nullable(true);
             $table->string('item_quantity')->nullable(true);
-            $table->string('mrf_quantity')->nullable(true);
             $table->string('item_price')->nullable(true);
             $table->string('matarial')->nullable(true);
             $table->string('gmts_color')->nullable(true);
@@ -32,6 +31,8 @@ class CreateBookingChallanTable extends Migration
             $table->string('orderNo')->nullable(true);
             $table->string('shipmentDate')->nullable(true);
             $table->string('poCatNo')->nullable(true);
+            $table->string('status')->nullable(true);
+            $table->string('action')->nullable(true);
             $table->timestamps();
         });
     }
@@ -43,6 +44,6 @@ class CreateBookingChallanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('mxp_booking_challan');
+        Schema::dropIfExists('mxp_MRF_table');
     }
 }

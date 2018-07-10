@@ -62,9 +62,6 @@ class TaskController extends Controller
 
          }elseif($taskType === 'IPO'){
             $roleManage = new RoleManagement();
-
-            // $data = $request->all();
-            // self::print_me($data);
             $ipoIncrease = $request->ipoIncrease;
 
             $validMessages = [
@@ -124,7 +121,39 @@ class TaskController extends Controller
             ]);
 
          }elseif($taskType === 'MRF'){
-            echo "MRFDDDDD";
+            $data = $request->all();
+
+            $validMessages = [
+                    'bookingId.required' => 'Booking Id field is required.'
+                    ];
+            $validator = Validator::make($datas, 
+                [
+                    'bookingId' => 'required',
+                ],
+                $validMessages
+            );
+
+            if ($validator->fails()) {
+                return redirect()->back()->withInput($request->input())->withErrors($validator->messages());
+            }
+
+            $validationError = $validator->messages();
+
+            $bookingDetails = DB::select("SELECT * FROM mxp_booking_challan WHERE booking_order_id = '".$request->bookingId."' GROUP BY item_code");
+            // self::print_me($bookingDetails);
+
+            $buyerDetails = DB::select("SELECT * FROM mxp_bookingBuyer_details WHERE booking_order_id = '".$request->bookingId."'");
+
+            if(empty($bookingDetails)){
+                StatusMessage::create('empty_booking_data', 'This booking Id does not show any result . Please check booking Id !');
+
+                return \Redirect()->Route('dashboard_view');
+            }
+
+            $MrfDetails =['a'=>'3'];
+
+            return view('maxim.mrf.mrf',compact('bookingDetails','MrfDetails'));
+
          }elseif($taskType === 'challan'){
 
             $validMessages = [

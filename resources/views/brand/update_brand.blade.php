@@ -36,6 +36,9 @@
 								<div class="col-md-3 col-md-offset-4">
 									<div class="select">
 										<select class="form-control" type="select" name="isActive" >
+											<option value="{{$values->status}}">
+                                                {{($values->status == 1) ? "Active" : "Inactive"}}
+                                            </option>
 											<option  value="1" name="isActive" >{{ trans("others.action_active_label") }}</option>
 											<option value="0" name="isActive" >{{ trans("others.action_inactive_label") }}</option>
 									    </select>
