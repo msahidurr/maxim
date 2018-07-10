@@ -53,6 +53,7 @@ $(document).ready(function(){
           async: true,
           success: function(result) {
               var myObj = JSON.parse(result);
+              console.log(myObj);
               if(myObj.length === 0)
               {
                 $('.idclone .'+parentLii+' .erpNo').attr("disabled","true");
@@ -143,7 +144,7 @@ $(document).ready(function(){
 
                 var increI = 0;
                 for(ij in myObj){
-                  $('.idclone .'+parentLii+' .others_color').eq(increI).val(myObj[ij].product_name);
+                  $('.idclone .'+parentLii+' .others_color').eq(increI).val(myObj[ij].others_color);
                   $('.idclone .'+parentLii+' .item_description').eq(increI).val(myObj[ij].product_description);
                   $('.idclone .'+parentLii+' .item_price').eq(increI).val(myObj[ij].unit_price);
                   increI++;

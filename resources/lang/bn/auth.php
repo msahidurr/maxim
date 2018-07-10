@@ -271,5 +271,9 @@ return [
 'mxp_menu_booking_list' => 'Booking List',
 'add_product_label' => 'আইটেম যোগ করুন',
 'update_product_label' => 'আইটেম আপডেট করুন',
+'others_color_label' => 'অন্যান্য রঙ',
+'new_mrf_create_label' => 'নতুন এমআরএফ তৈরি করুন',
+'create_button_lable' => 'সৃষ্টি',
+'mxp_menu_mrf_list' => 'এমআরএফ তালিকা',
 
 ];

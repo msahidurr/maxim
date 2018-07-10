@@ -62,8 +62,8 @@ class ColorController extends Controller
 		$insertGmtsColor->user_id = Auth::user()->user_id;
 		$insertGmtsColor->item_code = $request->p_code;
 		$insertGmtsColor->color_name = $request->gmts_color;
-		$insertGmtsColor->status = self::CREATE_GMTS_COLOR;
-		$insertGmtsColor->action = $request->isActive;
+		$insertGmtsColor->action = self::CREATE_GMTS_COLOR;
+		$insertGmtsColor->status = $request->isActive;
 		$insertGmtsColor->save();
 
     	StatusMessage::create('add_gmtscolor', $request->p_code .' ' .$request->gmts_color.' Created Successfully');
@@ -96,8 +96,8 @@ class ColorController extends Controller
 		$updateGmtsColor->user_id = Auth::user()->user_id;
 		$updateGmtsColor->item_code = $request->p_code;
 		$updateGmtsColor->color_name = $request->gmts_color;
-		$updateGmtsColor->status = self::UPDATE_GMTS_COLOR;
-		$updateGmtsColor->action = $request->isActive;
+		$updateGmtsColor->action = self::UPDATE_GMTS_COLOR;
+		$updateGmtsColor->status = $request->isActive;
 		$updateGmtsColor->save();
 
     	StatusMessage::create('update_gmtscolor', $request->p_code .' ' .$request->gmts_color.' Update Successfully');

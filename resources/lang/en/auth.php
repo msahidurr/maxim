@@ -271,5 +271,9 @@ return [
 'mxp_menu_booking_list' => 'Booking List',
 'add_product_label' => 'Add Item',
 'update_product_label' => 'Update Item',
+'others_color_label' => 'Others Color',
+'new_mrf_create_label' => 'New MRF Create',
+'create_button_lable' => 'Create',
+'mxp_menu_mrf_list' => 'MRF List',
 
 ];

@@ -4,13 +4,13 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MxpBookingChallan extends Model
+class MxpMrf extends Model
 {
-    protected $table = "mxp_booking_challan";
+    protected $table = "mxp_MRF_table";
 
     protected $fillable = [
-                'user_id',
-    			'challan_id',
+    			'user_id',
+    			'mrf_id',
     			'booking_order_id',
     			'erp_code',
     			'item_code',
@@ -22,5 +22,8 @@ class MxpBookingChallan extends Model
     			'orderDate',
     			'orderNo',
     			'shipmentDate',
-    			'poCatNo'];
+    			'poCatNo',
+    			'status',
+    			'action'
+    			];
 }

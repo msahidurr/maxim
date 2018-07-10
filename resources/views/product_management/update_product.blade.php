@@ -22,7 +22,7 @@ trans('others.update_product_label'))
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_code_label') }}</label>
                                         <div class="col-md-6">
@@ -33,16 +33,14 @@ trans('others.update_product_label'))
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_name_label') }}</label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_name" value="{{$data->product_name}}">
+                                            <input type="text" class="form-control" name="p_name" value="{{$data->product_name}}">
                                         </div>
-                                    </div>
-
-                         
+                                    </div>                         
 
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_description_label') }}</label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_description" value="{{$data->product_description}}">
+                                            <input type="text" class="form-control" name="p_description" value="{{$data->product_description}}">
                                         </div>
                                     </div>
 
@@ -56,14 +54,19 @@ trans('others.update_product_label'))
                                                  @endforeach 
                                             </select>
                                         </div>
-                                    </div>
+                                    </div>                                    
 
-                                    
+                                    <!-- <div class="form-group">
+                                        <label class="col-md-4 control-label">{{ trans('others.others_color_label') }}</label>
+                                        <div class="col-md-6">
+                                            <input type="text" class="form-control" name="others_color" value="{{$data->others_color}}">
+                                        </div>
+                                    </div> -->
 
                                 </div>
 
 
-                                <div class="col-sm-6">
+                                <div class="col-md-6 col-sm-12">
 
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_erp_code_label') }}</label>
@@ -75,62 +78,37 @@ trans('others.update_product_label'))
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_unit_price_label') }}</label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_unit_price" value="{{ $data->unit_price}}">
+                                            <input type="text" class="form-control" name="p_unit_price" value="{{ $data->unit_price}}">
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_weight_qty_label') }}</label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_weight_qty" value="{{$data->weight_qty}}">
+                                            <input type="text" class="form-control" name="p_weight_qty" value="{{$data->weight_qty}}">
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-md-4 control-label">{{ trans('others.product_weight_amt_label') }}</label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_weight_amt" value="{{$data->weight_amt}}">
+                                            <input type="text" class="form-control" name="p_weight_amt" value="{{$data->weight_amt}}">
                                         </div>
                                     </div>
 
-                                   <!--  <div class="form-group">
-                                        <label class="col-md-4 control-label">{{ trans('others.product_description1_label') }}</label>
+                                    <div class="form-group">
+                                        <label class="col-md-4"></label>
                                         <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_description1" value="{{$data->description_1}}">
+                                            <div class="select">
+                                                <select class="form-control" type="select" name="is_active" >
+                                                    <option value="{{$data->status}}">
+                                                        {{($data->status == 1) ? "Active" : "Inactive"}}
+                                                    </option>
+                                                    <option  value="1" name="is_active" >{{ trans('others.action_active_label') }}</option>
+                                                    <option value="0" name="is_active" >{{ trans('others.action_inactive_label') }}</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div> -->
-
-                                    <!-- <div class="form-group">
-                                        <label class="col-md-4 control-label">{{ trans('others.product_description2_label') }}</label>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_description2" value="{{$data->description_2}}">
-                                        </div>
-                                    </div> -->
-
-                                   <!--  <div class="form-group">
-                                        <label class="col-md-4 control-label">{{ trans('others.product_description3_label') }}</label>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_description3" value="{{$data->description_3}}">
-                                        </div>
-                                    </div> -->
-
-                                   <!--  <div class="form-group">
-                                        <label class="col-md-4 control-label">{{ trans('others.product_description4_label') }}</label>
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control  input_required" name="p_description4" value="{{$data->description_4}}">
-                                        </div>
-                                    </div> -->
-                                </div>
-                            </div>
-                                                    
-
-                            <div class="form-group">
-                                <div class="col-md-3 col-md-offset-8">
-                                    <div class="select">
-                                        <select class="form-control" type="select" name="is_active" >
-                                            <option  value="1" name="is_active" >{{ trans('others.action_active_label') }}</option>
-                                            <option value="0" name="is_active" >{{ trans('others.action_inactive_label') }}</option>
-                                        </select>
                                     </div>
                                 </div>
                             </div>

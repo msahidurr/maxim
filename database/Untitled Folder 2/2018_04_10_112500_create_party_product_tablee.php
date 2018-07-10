@@ -24,6 +24,7 @@ class CreatePartyProductTablee extends Migration
             $table->string('unit_price')->nullable(true);
             $table->string('weight_qty')->nullable(true);
             $table->string('weight_amt')->nullable(true);
+            $table->string('others_color')->nullable(true);
             $table->string('description_1')->nullable(true);
             $table->string('description_2')->nullable(true);
             $table->string('description_3')->nullable(true);
