@@ -22,6 +22,11 @@
 
 </head>
 <body>
+
+
+
+
+
 	<?php $languages = App\Http\Controllers\Trans\TranslationController::getLanguageList();?>
 	<div class="row">
 	<div class="col-md-2 col-sm-2 pull-right">
