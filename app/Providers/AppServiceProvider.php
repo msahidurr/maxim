@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
   */
   public function boot()
   {
-    error_reporting(0);
+    // error_reporting(0);
     
   Validator::extend('unique_check_more_field_comb', function($attribute, $value,$parameters)
   { 
