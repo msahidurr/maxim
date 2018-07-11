@@ -2,6 +2,8 @@
 @section('page_heading',
 trans('others.add_product_label'))
 @section('section')
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		  rel="stylesheet">
 <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -47,14 +49,22 @@ trans('others.add_product_label'))
 		                            <div class="form-group">
 		                                <label class="col-md-4 control-label">{{ trans('others.product_brand_label') }}</label>
 		                               <div class="col-md-6">
-		                                    <select class="form-control" name="p_brand" value="">                   
-		                                         <option value="{{old('p_brand')}}">{{(!empty(old('p_brand'))) ? old('p_brand') :"Choose Brand"}}</option>
+										   		<div class="product-brand-list" style="width:80%; float: left;">
+													<select class="form-control" name="p_brand" value="" style="width: 95% !important;">
+														 <option value="{{old('p_brand')}}">{{(!empty(old('p_brand'))) ? old('p_brand') :"Choose Brand"}}</option>
 
-		                                         @foreach($brands as $brand)
-		                                         <option value="{{$brand->brand_name}}">{{$brand->brand_name}}</option>
-		                                         @endforeach    
-		                                    </select>
+														 @foreach($brands as $brand)
+														 <option value="{{$brand->brand_name}}">{{$brand->brand_name}}</option>
+														 @endforeach
+													</select>
+												</div>
+											   <div class="add-brand-btn" style="width:20%; float: left; padding-top: 5px;">
+												   <i class="material-icons">
+													   add_circle_outline
+												   </i>
+											   </div>
 		                                </div>
+
 		                            </div>
 
 		                            <!-- <div class="form-group">
