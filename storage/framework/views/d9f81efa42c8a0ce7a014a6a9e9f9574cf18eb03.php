@@ -106,26 +106,29 @@
 											<?php
 							    				$itemsize = explode(',', $item->item_size);  				
 							    				$qty = explode(',', $item->item_quantity);
+							    				$mrf_quantity = explode(',', $item->mrf_quantity);
 							    				$itemQtyValue = array_combine($itemsize, $qty);
 							    			?>
 										<tbody>
 											<tr>
 												<td>
-													<input type="checkbox" name="selectAll" id="" class=" checkbox checkbox-primary">
+													<?php echo e($i++); ?>
+
 												</td>
 												<td><span><?php echo e($item->erp_code); ?></span></td>
 												<td><span><?php echo e($item->item_code); ?></span></td>
 												<td colspan="3" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					<?php $__currentLoopData = $itemQtyValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size => $Qty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+								    					<?php $__currentLoopData = $mrf_quantity; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mrf): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 									    					<?php if(empty($size)): ?>
 										    					<tr>
-										    						<td width="50%"></td>
-													    			<td width="50%" class="aaa">
+										    						<td width="40%"></td>
+													    			<td width="30%" class="aaa">
 													    				<input type="hidden" name="allId[]" value="<?php echo e($item->id); ?>">
 																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" >
 													    			</td>
-													    			<td></td>
+													    			<td width="30%"></td>
 													    		</tr>
 									    					<?php else: ?>
 										    					<tr>
@@ -140,11 +143,13 @@
 													    				</div>
 
 													    			</td>
+
 													    			<td width="30%">
-													    				<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" disabled="true">
+													    				<input type="text" class="form-control item_mrf" name="item_mrf[]" value="<?php echo e($mrf); ?>" disabled="true">
 													    			</td>
 										    					</tr>
 									    					<?php endif; ?>
+								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    				</table>
 								    			</td>

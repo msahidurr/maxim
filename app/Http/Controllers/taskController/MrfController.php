@@ -7,22 +7,26 @@ use App\Http\Controllers\Message\StatusMessage;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\RoleManagement;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Model\MxpBookingChallan;
 use App\Model\MxpMrf;
+use Carbon\Carbon;
 use Validator;
 use Auth;
 use DB;
 
 class MrfController extends Controller
 {
+  const CREATE_MRF = "create";
+  const UPDATE_MRF = "update";
+
 	function array_combine_($keys, $values)
 	{
 	    $result = array();
 	    foreach ($keys as $i => $k) {
-	        $result[$k][] = $values[$i];
+	        $result[$k][] = isset($values[$i]) ? $values[$i] : 0;
 	    }
 	    array_walk($result, create_function('&$v', '$v = (count($v) == 1)? array_pop($v): $v;'));
-	    return    $result;
+	    return  $result;
 	}
     public function addMrf(Request $request){
         
@@ -62,6 +66,7 @@ class MrfController extends Controller
       $one_uniq = array_unique($allId);
       $mainData = array_combine($one_uniq, $tempValue);
 
+      // self::print_me($mainData);
 
       /** This code only for mxp_booking_Challan Table update **/
 
@@ -100,7 +105,6 @@ class MrfController extends Controller
         $challanMinusValueInsert = MxpBookingChallan::find($key);
         $challanMinusValueInsert->mrf_quantity = $Minusvalues;
         $challanMinusValueInsert->save();
-        self::print_me($challanMinusValueInsert);
       }
 
       /** Item Quantity value Insert **/
@@ -110,16 +114,36 @@ class MrfController extends Controller
         $challanMinusValueInsert->item_quantity = $Minusvalue;
         $challanMinusValueInsert->save();
       }
-      $aaa = MxpBookingChallan::find(33);
-      print_r("<pre>");
-      print_r($aaaaa);
-      // print_r($quantity);
-      // print_r($dbValue);
-      // print_r($combineUpdateData);
-      // print_r($finalData);
-      // print_r($tempp);
-      // print_r($tempValues);
-      // print_r($challanMinusValueInsert);
-      print_r("</pre>");
+
+      $cc = MxpMrf::count();
+      $count = str_pad($cc + 1, 4, 0, STR_PAD_LEFT);
+      $id = "MRF"."-";
+      $date = date('dmY') ;
+      $mrf_id = $id.$date."-".$count;
+
+      foreach ($mainData as $key => $value) {
+        $getBookingChallanValue = DB::table("mxp_booking_challan")->where('id',$key)->get();
+        foreach ($getBookingChallanValue as $bookingChallanValue) {
+            $insertMrfValue = new MxpMrf();
+            $insertMrfValue->user_id = Auth::user()->user_id;
+            $insertMrfValue->mrf_id = $mrf_id;
+            $insertMrfValue->booking_order_id = $bookingChallanValue->booking_order_id;
+            $insertMrfValue->erp_code = $bookingChallanValue->erp_code;
+            $insertMrfValue->item_code = $bookingChallanValue->item_code;
+            $insertMrfValue->item_size = $bookingChallanValue->item_size;
+            $insertMrfValue->item_quantity = $bookingChallanValue->item_quantity;
+            $insertMrfValue->mrf_quantity = $value;
+            $insertMrfValue->item_price = $bookingChallanValue->item_price;
+            $insertMrfValue->matarial = $bookingChallanValue->matarial;
+            $insertMrfValue->gmts_color = $bookingChallanValue->gmts_color;
+            $insertMrfValue->orderDate = $bookingChallanValue->orderDate;
+            $insertMrfValue->orderNo = $bookingChallanValue->orderNo;
+            $insertMrfValue->shipmentDate = $bookingChallanValue->shipmentDate;
+            $insertMrfValue->poCatNo = $bookingChallanValue->poCatNo;
+            // $insertMrfValue->status = $bookingChallanValue->status;
+            $insertMrfValue->action = self::CREATE_MRF;
+            $insertMrfValue->save();
+        }
+      }
     }
 }

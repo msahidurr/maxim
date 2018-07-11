@@ -20,11 +20,10 @@
 				@foreach($bookingList as $value)
 				<tr>
 					<td>{{$j++}}</td>
-					<td>{{$value->buyer_name}}</td>
-					<td>{{$value->Company_name}}</td>
-					<td>{{$value->attention_invoice}}</td>
 					<td>{{$value->booking_order_id}}</td>
+					<td>{{$value->mrf_id}}</td>
 					<td>{{Carbon\Carbon::parse($value->created_at)}}</td>
+					<td></td>
 					<td></td>
 				</tr>
 				@endforeach
