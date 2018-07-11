@@ -23,6 +23,7 @@ class CreateMxpMRFTable extends Migration
             $table->string('item_size')->nullable(true);
             $table->string('item_description')->nullable(true);
             $table->string('item_quantity')->nullable(true);
+            $table->string('mrf_quantity')->nullable(true);
             $table->string('item_price')->nullable(true);
             $table->string('matarial')->nullable(true);
             $table->string('gmts_color')->nullable(true);
