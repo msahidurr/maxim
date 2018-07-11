@@ -136,7 +136,6 @@ class ChallanController extends Controller
           $booking_order_id = $countvalue->booking_order_id;
           $findChallanUpdateData = MxpBookingChallan::find($key);
           $findChallanUpdateData->item_quantity = $value;
-          // $findChallanUpdateData->count_challan = $count_challan + $countvalue->count_challan;
           $findChallanUpdateData->save();
         } 
 
