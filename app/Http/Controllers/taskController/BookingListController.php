@@ -18,8 +18,19 @@ class BookingListController extends Controller
     $bookingList = DB::table('mxp_bookingBuyer_details')
                       ->groupBy('booking_order_id')
                       ->orderBy('id','DESC')
-                      ->paginate(20);
+                      ->paginate(15);
 
     return view('maxim.booking_list.booking_list_page',compact('bookingList'));
+  }
+
+  public function showBookingReport(Request $request){
+  	$bookingReport = DB::select("call getBookinAndBuyerDeatils('".$request->bid."')");
+
+    $companyInfo = DB::table('mxp_header')->where('header_type',11)->get();
+
+  	
+  	$gmtsOrSizeGroup = DB::select("SELECT gmts_color,GROUP_CONCAT(item_size) as itemSize,GROUP_CONCAT(item_quantity) as quantity from mxp_booking WHERE booking_order_id = '".$customid."' GROUP BY gmts_color");
+
+  	return view('maxim.orderInput.reportFile',compact('bookingReport','companyInfo','gmtsOrSizeGroup'));
   }
 }

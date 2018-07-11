@@ -15,6 +15,7 @@
 						<th>booking id</th>
 						<th>Order Date</th>
 						<th>Shipment Date</th>
+						<th>Action</th>
 					</thead>
 				</tr>
 				@php($j=1)
@@ -27,6 +28,12 @@
 					<td>{{$value->booking_order_id}}</td>
 					<td>{{Carbon\Carbon::parse($value->created_at)}}</td>
 					<td></td>
+					<td>
+						<form action="{{ Route('booking_list_action_task') }}">
+							<input type="hidden" name="bid" value="{{$value->booking_order_id}}">
+							<button class="btn btn-success">View</button>
+						</form>
+					</td>
 				</tr>
 				@endforeach
 			</table>
