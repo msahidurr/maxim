@@ -786,6 +786,8 @@ Route::group(['middleware' => 'auth'], function () {
                 'uses'=>'taskController\TaskController@taskActionOrsubmited'
             ]);
 
+	    	/** there are all booking routes here **/
+
             Route::any('booking/order/action',
             [
                 'as'=>'booking_order_action',
@@ -798,9 +800,17 @@ Route::group(['middleware' => 'auth'], function () {
                 'uses'=>'taskController\BookingController@addBooking'
             ]);
 
+            /** there are all booking list routes here **/
+
+             Route::get('booking/list/view',
+            [
+                'as'=>'booking_list_action_task',
+                'uses'=>'taskController\BookingListController@showBookingReport'
+            ]);
+
             /** there are all challan routes here **/
 
-            Route::POST('task/multiple/challanaction',
+            Route::post('task/multiple/challanaction',
             [
                 'as'=>'multiple_challan_action_task',
                 'uses'=>'taskController\ChallanController@addChallan'
@@ -809,7 +819,7 @@ Route::group(['middleware' => 'auth'], function () {
 
             /** there are all MRF routes here **/
 
-            Route::POST('task/mrf/task',
+            Route::post('task/mrf/task',
             [
                 'as'=>'mrf_action_task',
                 'uses'=>'taskController\MrfController@addMrf'

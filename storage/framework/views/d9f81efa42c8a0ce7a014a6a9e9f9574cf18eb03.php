@@ -1,6 +1,5 @@
-@extends('layouts.dashboard')
-@section('page_heading', trans("others.new_mrf_create_label"))
-@section('section')
+<?php $__env->startSection('page_heading', trans("others.new_mrf_create_label")); ?>
+<?php $__env->startSection('section'); ?>
 <style type="text/css">
 	.showMrfList{
 		background-color: #f9f9f9;
@@ -35,12 +34,12 @@
 </style>
 
     <div class="container-fluid">
-    	@if(Session::has('erro_challan'))
-            @include('widgets.alert', array('class'=>'danger', 'message'=> Session::get('erro_challan') ))
-		@endif
+    	<?php if(Session::has('erro_challan')): ?>
+            <?php echo $__env->make('widgets.alert', array('class'=>'danger', 'message'=> Session::get('erro_challan') ), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+		<?php endif; ?>
 		<div class="row">
 			<div class="col-md-12 col-md-offset-0">
-				@if(!empty($MrfDetails))
+				<?php if(!empty($MrfDetails)): ?>
 					<div class="panel showMrfList">
 						<div class="panel-heading">MRP list</div>
 						<div class="panel-body">
@@ -64,13 +63,13 @@
 							</table>
 						</div>
 					</div>
-				@endif
+				<?php endif; ?>
 				<div class="panel panel-default">
-					<div class="panel-heading">{{trans('others.new_mrf_create_label')}}</div>
+					<div class="panel-heading"><?php echo e(trans('others.new_mrf_create_label')); ?></div>
 					<div class="panel-body aaa">
-							@if(!empty($bookingDetails))	
-								<form class="form-horizontal" role="form" method="POST" action="{{ Route('mrf_action_task') }}">
-									<input type="hidden" name="_token" value="{{ csrf_token() }}">
+							<?php if(!empty($bookingDetails)): ?>	
+								<form class="form-horizontal" role="form" method="POST" action="<?php echo e(Route('mrf_action_task')); ?>">
+									<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
 
 									<div class="col-md-12 col-sm-12 col-xs-12">
 										<div class="mrfControl">
@@ -103,7 +102,7 @@
 										<?php
 										   $i=1;
 										 ?>
-										@foreach ($bookingDetails as $item)
+										<?php $__currentLoopData = $bookingDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 											<?php
 							    				$itemsize = explode(',', $item->item_size);  				
 							    				$qty = explode(',', $item->item_quantity);
@@ -114,57 +113,59 @@
 												<td>
 													<input type="checkbox" name="selectAll" id="" class=" checkbox checkbox-primary">
 												</td>
-												<td><span>{{$item->erp_code}}</span></td>
-												<td><span>{{$item->item_code}}</span></td>
+												<td><span><?php echo e($item->erp_code); ?></span></td>
+												<td><span><?php echo e($item->item_code); ?></span></td>
 												<td colspan="3" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
-								    					@foreach ($itemQtyValue as $size => $Qty)
-									    					@if(empty($size))
+								    					<?php $__currentLoopData = $itemQtyValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size => $Qty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+									    					<?php if(empty($size)): ?>
 										    					<tr>
 										    						<td width="50%"></td>
 													    			<td width="50%" class="aaa">
-													    				<input type="hidden" name="allId[]" value="{{$item->id}}">
-																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}" >
+													    				<input type="hidden" name="allId[]" value="<?php echo e($item->id); ?>">
+																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" >
 													    			</td>
 													    			<td></td>
 													    		</tr>
-									    					@else
+									    					<?php else: ?>
 										    					<tr>
 										    						<td width="40%">
-										    							{{$size}}
+										    							<?php echo e($size); ?>
+
 										    						</td>
 													    			<td width="30%" class="aaa">
-										    							<input type="hidden" name="allId[]" value="{{$item->id}}">
+										    							<input type="hidden" name="allId[]" value="<?php echo e($item->id); ?>">
 										    							<div class="question_div">
-																			<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}">
+																			<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>">
 													    				</div>
 
 													    			</td>
 													    			<td width="30%">
-													    				<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}" disabled="true">
+													    				<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" disabled="true">
 													    			</td>
 										    					</tr>
-									    					@endif
-								    					@endforeach
+									    					<?php endif; ?>
+								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    				</table>
 								    			</td>
 												
 											</tr>
 											
 										</tbody>
-										@endforeach
+										<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 									</table>
 								
 
 									<div class="form-group ">
 										<div class="col-md-6 col-md-offset-10">
 											<button type="submit" class="btn btn-primary" id="rbutton">
-												{{trans('others.create_button_lable')}}
+												<?php echo e(trans('others.create_button_lable')); ?>
+
 											</button>
 										</div>
 									</div>
 								</form>
-							@if(!empty($multipleChallanList))
+							<?php if(!empty($multipleChallanList)): ?>
 								<span style="font-size:15px;">Multiple Challan list</span>
 								<table class="table table-bordered">
 									<thead>
@@ -172,20 +173,21 @@
 										<th>Invo no</th>
 										<th>Challan no</th>
 									</thead>
-									@php($k = 1)
-									@foreach($multipleChallanList as $ChallanList)
+									<?php ($k = 1); ?>
+									<?php $__currentLoopData = $multipleChallanList; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ChallanList): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 										<tr>
-											<td>{{$k++}}</td>
-											<td>{{$ChallanList->bill_id}}</td>
-											<td>{{$ChallanList->challan_id}}</td>	
+											<td><?php echo e($k++); ?></td>
+											<td><?php echo e($ChallanList->bill_id); ?></td>
+											<td><?php echo e($ChallanList->challan_id); ?></td>	
 										</tr>
-									@endforeach
+									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								</table>
-							@endif
-						@endif
+							<?php endif; ?>
+						<?php endif; ?>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-@stop
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.dashboard', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
