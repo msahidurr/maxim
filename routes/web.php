@@ -825,6 +825,12 @@ Route::group(['middleware' => 'auth'], function () {
                 'uses'=>'taskController\MrfController@addMrf'
             ]);
 
+            Route::get('task/mrf/task/list',
+            [
+                'as'=>'mrf_list_action_task',
+                'uses'=>'taskController\MrfListController@showMrfReport'
+            ]);
+
             /** there are all task routes here **/
 	    Route::any('/get/buyer/company',
             [
