@@ -1,6 +1,13 @@
 <?php $__env->startSection('page_heading', trans("others.new_mrf_create_label")); ?>
 <?php $__env->startSection('section'); ?>
 <style type="text/css">
+	.top-div{
+		background-color: #f9f9f9; 
+		padding:5px 0px 5px 10px; 
+		border-radius: 7px;
+		box-sizing: border-box;
+		display: block;
+	}
 	.showMrfList{
 		background-color: #f9f9f9;
 		border-radius: 10px;
@@ -8,24 +15,24 @@
 		box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 6px 6px rgba(0,0,0,0.15);
 		z-index: 999;
 	}
-	.mrfControl{
+	.top-div .mrfControl{
 		text-align: left;
 		width:30%;
 		display: inline-block;
 	}
-	.mrfControl .all{
+	.top-div .mrfControl .all{
 		display: inline;
 		float: left;
 		width: 10%;
 	}
 
 	@media (max-width: 300px) {
-		.mrfControl{
+		.top-div .mrfControl{
 		text-align: left;
 		width:40%;
 		display: inline-block;
 	}
-	.mrfControl .all{
+	.top-div .mrfControl .all{
 		display: inline;
 		float: left;
 		width: 25%;
@@ -34,6 +41,17 @@
 </style>
 
     <div class="container-fluid">
+    	<?php if($errors->any()): ?>
+            <div class="alert alert-danger">
+                <ul>
+                    <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li><?php echo e($error); ?></li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+
+
     	<?php if(Session::has('erro_challan')): ?>
             <?php echo $__env->make('widgets.alert', array('class'=>'danger', 'message'=> Session::get('erro_challan') ), array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 		<?php endif; ?>
@@ -77,24 +95,24 @@
 							<?php if(!empty($bookingDetails)): ?>	
 								<form class="form-horizontal" role="form" method="POST" action="<?php echo e(Route('mrf_action_task')); ?>">
 									<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
-
-									<div class="col-md-12 col-sm-12 col-xs-12">
-										<div class="mrfControl">
-											<div class="all">
-												<input type="checkbox" name="selectAllMrf" id="selectAllMrf" class="">
-											</div>
-											<div class="all">
-												<label for="selectAllMrf">All</label>
-											</div>
-											<div class="all">
-												<input type="checkbox" name="editMrf" id="editMrf">
-											</div>
-											<div class="all">
-												<label for="editMrf">Edit</label>
+									<input type="hidden" name="booking_order_id" value="<?php echo e($booking_order_id); ?>">
+									
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-12 label-control">MRF Person Name</label>
+											<div class="col-sm-12">
+												<input class="form-control" type="text" name="mrf_person_name" placeholder="Enter Name" required>
 											</div>
 										</div>
 									</div>
-
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-12 label-control">Shipment Date</label>
+											<div class="col-sm-12">
+												<input class="form-control" type="Date" name="mrf_shipment_date" required>
+											</div>
+										</div>
+									</div>
 									<table class="table table-bordered table-striped" >
 										<thead>
 											<tr>
@@ -115,10 +133,6 @@
 							    				$qty = explode(',', $item->item_quantity);
 							    				$mrf_quantity = explode(',', $item->mrf_quantity);
 							    				$itemQtyValue = array_combine($itemsize, $qty);
-
-							    				// print_r("<pre>");
-							    				// print_r($item);
-							    				// print_r("<pre>");
 							    			?>
 										<tbody>
 											<tr>
