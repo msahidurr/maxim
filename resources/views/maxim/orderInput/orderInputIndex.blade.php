@@ -92,7 +92,7 @@
 
 								<td>
 									<div class="form-group">
-										<input type="date" name="shipmentDate" class="form-control" placeholder="Shipment Date" title="Shipment Date">
+										<input type="date" name="shipmentDate" class="form-control" placeholder="Shipment Date" title="Shipment Date" required>
 									</div>
 								</td>
 
@@ -129,11 +129,6 @@
 							<td width="15%">
 								<div class="form-group abcde">
 									<input type="text" name="item_code[]" class="form-control item_code" id="item_code">
-									<!-- <select name="item_code[]" id="item_code" class="item_code">
-										@foreach ($productDetails as $products)
-											<option value="{{$products->product_code}}">{{$products->product_code}}</option>
-										@endforeach
-									</select> -->
 								</div>
 							</td>
 							<td width="20%">
