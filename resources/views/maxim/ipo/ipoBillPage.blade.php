@@ -1,31 +1,6 @@
 @extends('maxim.layouts.layouts')
 @section('print-body')
 
-<style type="text/css">
-	.header-top-a .buyerName{
-		padding-left: 40px;
-	}
-	.valueGenarate table{
-		width: 100%;
-	}
-	.valueGenarate table tr td{
-		text-align: right;
-		padding-right: 5px;
-	}
-	.valueGenarate table tr td p{
-		font-weight: bold;
-	}
-	.mainBody table thead>th{
-		align: center;
-	}
-	.mainBody .grandTotal{
-		text-align: center;
-	}
-	.mainBody .grandTotal span{
-		font-weight: bold;
-	}
-</style>
-
 	<center>
 		<a href="#" onclick="myFunction()" class="print">Print & Preview</a>
 	</center>
