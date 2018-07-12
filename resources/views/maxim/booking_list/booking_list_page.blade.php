@@ -29,7 +29,7 @@
 					<td>{{Carbon\Carbon::parse($value->created_at)}}</td>
 					<td></td>
 					<td>
-						<form action="{{ Route('booking_list_action_task') }}">
+						<form action="{{ Route('booking_list_action_task') }}" target="_blank">
 							<input type="hidden" name="bid" value="{{$value->booking_order_id}}">
 							<button class="btn btn-success">View</button>
 						</form>
