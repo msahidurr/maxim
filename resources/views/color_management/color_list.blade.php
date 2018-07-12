@@ -42,7 +42,7 @@ trans('others.Gmts_color_list_label'))
             <thead>
                 <tr>
                 	<th>Serial No</th>
-                	<th>Item Code</th>
+                	{{--<th>Item Code</th>--}}
                 	<th>GMTS Color</th>
                 	<th>Status</th>
                     <th>Action</th>
@@ -53,7 +53,7 @@ trans('others.Gmts_color_list_label'))
                     @foreach($gmtsColor as $color)                  
                         <tr>                        	
                         	<td>{{$i++}}</td>
-                        	<td>{{$color->item_code}}</td>                	
+{{--                        	<td>{{$color->item_code}}</td>                	--}}
                         	<td>{{$color->color_name}}</td>                	
                         	<td>
                             {{($color->status == 1)? trans("others.action_active_label"):trans("others.action_inactive_label")}}
