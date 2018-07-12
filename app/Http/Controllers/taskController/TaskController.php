@@ -89,7 +89,6 @@ class TaskController extends Controller
             }
             foreach ($bookingDetails as $details) {
                 $createIpo = new MxpIpo();
-                $createIpo->initial_increase = $data;
                 $createIpo->user_id = Auth::user()->user_id;
                 $createIpo->ipo_id = $IpoUniqueID;
                 $createIpo->initial_increase = $ipoIncrease;
@@ -112,7 +111,7 @@ class TaskController extends Controller
             }
             $ipoDetails = DB::table("mxp_ipo")->where('ipo_id',$IpoUniqueID)->get();
             $buyerDetails = DB::table("mxp_bookingBuyer_details")->where('booking_order_id',$request->bookingId)->get();
-            $headerValue = DB::select("select * from mxp_header");
+            $headerValue = DB::table("mxp_header")->where('header_type',11)->get();
             return view('maxim.ipo.ipoBillPage',[
                 'headerValue' => $headerValue,
                 'initIncrease' => $request->ipoIncrease,
@@ -122,7 +121,7 @@ class TaskController extends Controller
 
          }elseif($taskType === 'MRF'){
             $data = $request->all();
-
+            $booking_order_id = $request->bookingId;
             $validMessages = [
                     'bookingId.required' => 'Booking Id field is required.'
                     ];
@@ -150,9 +149,9 @@ class TaskController extends Controller
                 return \Redirect()->Route('dashboard_view');
             }
 
-            $MrfDetails =['a'=>'3'];
+            $MrfDetails = DB::select("select * from mxp_MRF_table where booking_order_id = '".$request->bookingId."' GROUP BY mrf_id");
 
-            return view('maxim.mrf.mrf',compact('bookingDetails','MrfDetails'));
+            return view('maxim.mrf.mrf',compact('bookingDetails','MrfDetails','booking_order_id'));
 
          }elseif($taskType === 'challan'){
 
