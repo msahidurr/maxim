@@ -78,9 +78,11 @@
 										<td><?php echo e($details->booking_order_id); ?></td>
 										<td><?php echo e($details->mrf_id); ?></td>
 										<td>
-											<button type="submit" name="mrf_view" class="btn btn-success">
-												View
-											</button>
+											<form action="<?php echo e(Route('mrf_list_action_task')); ?>" role="form" target="_blank">
+												<input type="hidden" name="mid" value="<?php echo e($details->mrf_id); ?>">
+												<input type="hidden" name="bid" value="<?php echo e($details->booking_order_id); ?>">
+												<button class="btn btn-success" >View</button>
+											</form>
 										</td>
 									</tr>
 									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>								
@@ -96,7 +98,7 @@
 								<form class="form-horizontal" role="form" method="POST" action="<?php echo e(Route('mrf_action_task')); ?>">
 									<input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
 									<input type="hidden" name="booking_order_id" value="<?php echo e($booking_order_id); ?>">
-									
+
 									<div class="col-sm-6">
 										<div class="form-group">
 											<label class="col-sm-12 label-control">MRF Person Name</label>

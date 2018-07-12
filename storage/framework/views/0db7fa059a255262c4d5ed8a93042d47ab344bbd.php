@@ -28,7 +28,7 @@
 					<td><?php echo e(Carbon\Carbon::parse($value->created_at)); ?></td>
 					<td></td>
 					<td>
-						<form action="<?php echo e(Route('booking_list_action_task')); ?>">
+						<form action="<?php echo e(Route('booking_list_action_task')); ?>" target="_blank">
 							<input type="hidden" name="bid" value="<?php echo e($value->booking_order_id); ?>">
 							<button class="btn btn-success">View</button>
 						</form>
