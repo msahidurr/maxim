@@ -57,7 +57,7 @@
 		@endforeach
 	</div>
 	
-	<div class="col-md-4 col-sm-4 col-xs-5">
+	<div class="col-md-4 col-sm-4 col-xs-5 valueGenarate">
 		@php ($i=0)
 		@foreach ($bookingDetails as $details)
 			@for($i;$i <= 0;$i++)
