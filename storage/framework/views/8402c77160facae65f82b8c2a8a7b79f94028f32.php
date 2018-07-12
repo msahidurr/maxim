@@ -22,7 +22,7 @@
 					<td><?php echo e($value->booking_order_id); ?></td>
 					<td><?php echo e($value->mrf_id); ?></td>
 					<td><?php echo e(Carbon\Carbon::parse($value->created_at)); ?></td>
-					<td></td>
+					<td><?php echo e($value->shipmentDate); ?></td>
 					<td></td>
 				</tr>
 				<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
