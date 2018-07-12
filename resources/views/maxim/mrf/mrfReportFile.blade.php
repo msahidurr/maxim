@@ -38,7 +38,7 @@
 	@endforeach
 	<div class="row header-bottom">
 		<div class="col-md-12 header-bottom-b">
-			<span>Challan / Boxing List</span>
+			<span>MRF List</span>
 		</div>
 	</div>
 
@@ -59,31 +59,22 @@
 					@endforeach
 		</div>
 		
-		<div class="col-md-4 col-sm-4 col-xs-5">
+		<div class="col-md-4 col-sm-4 col-xs-5 valueGenarate">
 			@php ($i=0)
-			@foreach ($multipleChallan as $billdata)
+			@foreach ($mrfDeatils as $billdata)
 				@for($i;$i <= 0;$i++)
 				<table class="tables table-bordered" style="width: 100%;">
-					<tr >
-						
-						<td colspan="2">
-							<div style="text-align: right;">
-								<p style="padding-left :5px;"> Date : {{Carbon\Carbon::now()->format('Y-m-d')}}</p>
-							</div>
-						</td>
-					</tr>
 					<tr>
-						
 						<td colspan="2">
 							<div style="text-align: right;">
-								<p style="padding-left :5px;"> Challan no :{{$billdata->challan_id}}</p>
+								<p style="padding-left :5px;"> MRF No : {{$billdata->mrf_id}}</p>
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<div style="text-align: right;">
-								<p style="padding-left :5px;">Checking No :{{$billdata->checking_id}}  </p>
+								<p style="padding-left :5px;">Booking No : {{$billdata->booking_order_id}}  </p>
 
 								<!-- {{Carbon\Carbon::parse($billdata->created_at)->format('dmY')}}: -->
 							</div>
@@ -111,12 +102,10 @@
         	<th width="5%">SI No</th>
         	<th width="15%">Description</th>
         	<th width="10%">Item code</th>
-        	<th width="10%">OSS</th>
-            <th width="10%">Style</th>
+        	<!-- <th width="10%">OSS</th> -->
+            <!-- <th width="10%">Style</th> -->
             <th width="14%">Size</th>
-            <th width="6%">Quantity</th>
-            <th width="10%">Weight</th>
-            <th width="10%">Box</th>
+            <th width="6%">MRF Quantity</th>
         </tr>
     </thead>
     <tbody>
@@ -129,12 +118,12 @@
     		// print_r("<pre>");
     		// print_r($sentBillId);die();
     	 ?>
-    		@foreach ($multipleChallan as $key => $item)
+    		@foreach ($mrfDeatils as $key => $item)
 
     			<?php
     				$totalQty =0;
     				$itemsize = explode(',', $item->item_size);  				
-    				$qty = explode(',', $item->quantity);
+    				$qty = explode(',', $item->mrf_quantity);
     				$itemlength = 0;
     				foreach ($itemsize as $itemlengths) {
     					$itemlength = sizeof($itemlengths);
@@ -143,10 +132,10 @@
     			?>
 	    			<tr>
 	    				<td>{{$j++}}</td>
-	    				<td rowspan="{{$itemlength}}">{{$item->erp_code}}</td>
-	    				<td rowspan="{{$itemlength}}">{{$item->item_code}}</td>
-	    				<td rowspan="{{$itemlength}}">{{$item->oss}}</td>
-			    		<td rowspan="{{$itemlength}}">{{$item->style}}</td> 
+	    				<td>{{$item->erp_code}}</td>
+	    				<td>{{$item->item_code}}</td>
+	    				<!-- <td rowspan="{{$itemlength}}"></td> -->
+			    		<!-- <td rowspan="{{$itemlength}}"></td>  -->
 			    		
 			    			@if ($itemlength >= 1 )
 				    			<td colspan="2" class="colspan-td">  				
@@ -171,25 +160,19 @@
 				    				</table>
 				    			</td>
 				    		@endif			    		   
-			    		<td rowspan="{{$itemlength}}"></td>
 			    		
 			    		<?php 
     						$totalAllQty += $totalQty;
     					?>
-    					<td></td>
 	    			</tr>
     		@endforeach
     	
     	<tr>
-			<td colspan="6"><div style="text-align: center; font-weight: bold;font-size: ;"><span>Total Qty </span></div></td>
+			<td colspan="4"><div style="text-align: center; font-weight: bold;font-size: ;"><span>Total Qty </span></div></td>
 			<td>{{$totalAllQty}}</td>
-			<td></td>
-			<td></td>
 		</tr>
 		<tr>
-			<td colspan="7"><div style="text-align: center;font-weight: bold;font-size: ;"><span> Total weight & Box : </span></div></td>
-			<td></td>
-			<td></td>
+			<td colspan="5"><div style="text-align: center;font-weight: bold;font-size: ;"><span> Total weight & Box : </span></div></td>
 		</tr>
     		
     </tbody>
