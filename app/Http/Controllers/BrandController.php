@@ -55,9 +55,15 @@ class BrandController extends Controller
     	$createBrand->status = $request->isActive;
     	$createBrand->action = self::CREATE_BRAND;
     	$createBrand->save();
-
+        $lastId = $createBrand->brand_id;
 		StatusMessage::create('add_brand', 'New Title Created Successfully');
 
+		if(isset($request->request_type) && $request->request_type == 'ajax'){
+            return [
+                'brand_id' => $lastId,
+                'brand_name' => $request->brand_name
+            ];
+        }
 		return \Redirect()->Route('brand_list_view');
     }
 

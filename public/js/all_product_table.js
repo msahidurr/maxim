@@ -214,3 +214,39 @@ $(document).ready(function(){
 
 	// LC Purchase Table input 
 });
+// $('#myModal').on('shown.bs.modal', function () {
+//     $('#myInput').trigger('focus')
+// })
+
+$('.close').on('click', function(){
+    $('#addBrandModal').modal('toggle');
+});
+
+
+$('.add-product-brand').on('click', function(){
+
+    // alert($('input[name=brand_name]').val());
+    // alert($('select[name=isActive]').val());
+
+    $.ajax({
+        type: "POST",
+        url: "/add/brand/action",
+        data: 'request_type=ajax&brand_name='+$('input[name=brand_name]').val()+'&isActive='+$('select[name=isActive]').val()+'&_token='+$('input[name=_token]').val(),
+        cache: false,
+        async: false,
+        success: function(result) {
+
+            $('.brand-list').append($('<option>', {
+                value: result['brand_id'],
+                text: result['brand_name']
+            }));
+
+        },
+        error: function(data) {
+        	result('Product Brand Error: '+ data);
+        },
+
+    });
+
+    $('#addBrandModal').modal('toggle');
+});
