@@ -18,11 +18,13 @@ class CreateMxpMRFTable extends Migration
             $table->integer('user_id');
             $table->string('mrf_id');
             $table->string('booking_order_id');
+            $table->string('mrf_person_name')->nullable(true);
             $table->string('erp_code')->nullable(true);
             $table->string('item_code')->nullable(true);
             $table->string('item_size')->nullable(true);
             $table->string('item_description')->nullable(true);
             $table->string('item_quantity')->nullable(true);
+            $table->string('mrf_quantity')->nullable(true);
             $table->string('item_price')->nullable(true);
             $table->string('matarial')->nullable(true);
             $table->string('gmts_color')->nullable(true);
