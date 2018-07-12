@@ -127,11 +127,6 @@
 							<td width="15%">
 								<div class="form-group abcde">
 									<input type="text" name="item_code[]" class="form-control item_code" id="item_code">
-									<!-- <select name="item_code[]" id="item_code" class="item_code">
-										<?php $__currentLoopData = $productDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $products): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-											<option value="<?php echo e($products->product_code); ?>"><?php echo e($products->product_code); ?></option>
-										<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-									</select> -->
 								</div>
 							</td>
 							<td width="20%">
