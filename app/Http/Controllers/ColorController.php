@@ -42,12 +42,12 @@ class ColorController extends Controller
     	$roleManage = new RoleManagement();
 
         $validMessages = [
-            'p_code.required' => 'Product code field is required.',
+//            'p_code.required' => 'Product code field is required.',
             'gmts_color.required' => 'Color field is required.',
             ];
     	$validator = Validator::make($datas, 
             [
-    			'p_code' => 'required',
+//    			'p_code' => 'required',
     			'gmts_color' => 'required',
 		    ],
             $validMessages
@@ -60,7 +60,7 @@ class ColorController extends Controller
 		$validationError = $validator->messages();
 		$insertGmtsColor = new MxpGmtsColor();
 		$insertGmtsColor->user_id = Auth::user()->user_id;
-		$insertGmtsColor->item_code = $request->p_code;
+//		$insertGmtsColor->item_code = $request->p_code;
 		$insertGmtsColor->color_name = $request->gmts_color;
 		$insertGmtsColor->action = self::CREATE_GMTS_COLOR;
 		$insertGmtsColor->status = $request->isActive;
