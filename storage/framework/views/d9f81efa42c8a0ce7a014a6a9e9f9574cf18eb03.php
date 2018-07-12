@@ -45,20 +45,27 @@
 						<div class="panel-body">
 							<table class="table table-striped table-bordered">
 								<thead>
-									<th>#</th>
-									<th>Booking Id</th>
-									<th>MRF Id</th>
-									<th>Action</th>
+									<tr>
+										<th>#</th>
+										<th>Booking Id</th>
+										<th>MRF Id</th>
+										<th>Action</th>
+									</tr>
 								</thead>
 								<tbody>
-									<td>1</td>
-									<td>BK-011822-CL-001</td>
-									<td>MRF-087655-001</td>
-									<td>
-										<button type="submit" name="mrf_view" class="btn btn-success">
-											View
-										</button>
-									</td>
+									<?php ($i=1); ?>
+									<?php $__currentLoopData = $MrfDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+									<tr>
+										<td><?php echo e($i++); ?></td>
+										<td><?php echo e($details->booking_order_id); ?></td>
+										<td><?php echo e($details->mrf_id); ?></td>
+										<td>
+											<button type="submit" name="mrf_view" class="btn btn-success">
+												View
+											</button>
+										</td>
+									</tr>
+									<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>								
 								</tbody>
 							</table>
 						</div>
@@ -106,16 +113,22 @@
 											<?php
 							    				$itemsize = explode(',', $item->item_size);  				
 							    				$qty = explode(',', $item->item_quantity);
+							    				$mrf_quantity = explode(',', $item->mrf_quantity);
 							    				$itemQtyValue = array_combine($itemsize, $qty);
+
+							    				// print_r("<pre>");
+							    				// print_r($item);
+							    				// print_r("<pre>");
 							    			?>
 										<tbody>
 											<tr>
 												<td>
-													<input type="checkbox" name="selectAll" id="" class=" checkbox checkbox-primary">
+													<?php echo e($i++); ?>
+
 												</td>
 												<td><span><?php echo e($item->erp_code); ?></span></td>
 												<td><span><?php echo e($item->item_code); ?></span></td>
-												<td colspan="3" class="colspan-td">
+												<td colspan="2" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					<?php $__currentLoopData = $itemQtyValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size => $Qty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 									    					<?php if(empty($size)): ?>
@@ -125,28 +138,36 @@
 													    				<input type="hidden" name="allId[]" value="<?php echo e($item->id); ?>">
 																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" >
 													    			</td>
-													    			<td></td>
 													    		</tr>
 									    					<?php else: ?>
 										    					<tr>
-										    						<td width="40%">
+										    						<td width="50%">
 										    							<?php echo e($size); ?>
 
 										    						</td>
-													    			<td width="30%" class="aaa">
+													    			<td width="50%" class="aaa">
 										    							<input type="hidden" name="allId[]" value="<?php echo e($item->id); ?>">
 										    							<div class="question_div">
 																			<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>">
 													    				</div>
-
-													    			</td>
-													    			<td width="30%">
-													    				<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" disabled="true">
 													    			</td>
 										    					</tr>
 									    					<?php endif; ?>
 								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    				</table>
+								    			</td>
+								    			<td class="colspan-td">
+								    				<div class="middel-table">
+								    					<table>
+								    							<?php $__currentLoopData = $mrf_quantity; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mrf): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+								    						<tr>
+								    								<td width="30%">
+													    				<input type="text" class="form-control item_mrf" name="item_mrf[]" value="<?php echo e($mrf); ?>" disabled="true">
+													    			</td>
+								    						</tr>
+								    							<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+								    					</table>
+								    				</div>
 								    			</td>
 												
 											</tr>
