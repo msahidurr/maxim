@@ -36,13 +36,13 @@ class ProductSizeController extends Controller
     	// $roleManage = new RoleManagement();
 
         $validMessages = [
-            'p_code.required' => 'Product code field is required.',
+//            'p_code.required' => 'Product code field is required.',
             'p_size.required' => 'Size field is required.'
             ];
         $datas = $request->all();
     	$validator = Validator::make($datas, 
             [
-    			'p_code' => 'required',
+//    			'p_code' => 'required',
     			'p_size' => 'required'
 		    ],
             $validMessages
@@ -54,7 +54,7 @@ class ProductSizeController extends Controller
 		$validationError = $validator->messages();
     	$createSize = new MxpProductSize();
     	$createSize->user_id = Auth::user()->user_id;
-    	$createSize->product_code = $request->p_code;
+//    	$createSize->product_code = $request->p_code;
     	$createSize->product_size = $request->p_size;
     	$createSize->status = $request->isActive;
     	$createSize->action = self::CREATE_SIZE;
