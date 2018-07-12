@@ -9,5 +9,5 @@ class MxpGmtsColor extends Model
     protected $table = 'mxp_gmts_color';
     // protected $primaryKey = 'header_id';
 
-    protected $fillable = ['user_id','item_code','color_name','action','status'];
+    protected $fillable = ['user_id','color_name','action','status'];
 }
