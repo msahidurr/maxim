@@ -8,6 +8,16 @@
         @include('widgets.alert', array('class'=>'danger', 'message'=> Session::get('erro_challan') ))
     @endif
     <style type="text/css">
+        .showTask{
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 6px 6px rgba(0,0,0,0.15);
+            z-index: 999;
+        }
+        .showTask .inputForm{
+            padding-top: 15px;
+        }
         .top-div{
             background-color: #f9f9f9; 
             padding:5px 0px 5px 10px; 
@@ -22,9 +32,9 @@
         <div class="col-md-8 col-sm-8 col-xs-12 col-md-offset-2 col-xs-offset">
             <div class="panel panel-default">
                 <!-- <div class="panel-heading"></div> -->
-                <div class="panel-body">
+                <div class="panel-body showTask">
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ Route('task_action') }}">
+                    <form class="form-horizontal inputForm" role="form" method="POST" action="{{ Route('task_action') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             @if ($errors->any())

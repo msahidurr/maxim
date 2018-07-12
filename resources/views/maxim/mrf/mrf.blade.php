@@ -107,26 +107,28 @@
 											<?php
 							    				$itemsize = explode(',', $item->item_size);  				
 							    				$qty = explode(',', $item->item_quantity);
+							    				$mrf_quantity = explode(',', $item->mrf_quantity);
 							    				$itemQtyValue = array_combine($itemsize, $qty);
 							    			?>
 										<tbody>
 											<tr>
 												<td>
-													<input type="checkbox" name="selectAll" id="" class=" checkbox checkbox-primary">
+													{{$i++}}
 												</td>
 												<td><span>{{$item->erp_code}}</span></td>
 												<td><span>{{$item->item_code}}</span></td>
 												<td colspan="3" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					@foreach ($itemQtyValue as $size => $Qty)
+								    					@foreach ($mrf_quantity as $mrf)
 									    					@if(empty($size))
 										    					<tr>
-										    						<td width="50%"></td>
-													    			<td width="50%" class="aaa">
+										    						<td width="40%"></td>
+													    			<td width="30%" class="aaa">
 													    				<input type="hidden" name="allId[]" value="{{$item->id}}">
 																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}" >
 													    			</td>
-													    			<td></td>
+													    			<td width="30%"></td>
 													    		</tr>
 									    					@else
 										    					<tr>
@@ -140,11 +142,13 @@
 													    				</div>
 
 													    			</td>
+
 													    			<td width="30%">
-													    				<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}" disabled="true">
+													    				<input type="text" class="form-control item_mrf" name="item_mrf[]" value="{{$mrf}}" disabled="true">
 													    			</td>
 										    					</tr>
 									    					@endif
+								    					@endforeach
 								    					@endforeach
 								    				</table>
 								    			</td>
