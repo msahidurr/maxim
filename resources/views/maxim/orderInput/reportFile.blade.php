@@ -1,4 +1,5 @@
 @extends('maxim.layouts.layouts')
+@section('title','Booking Maxim')
 @section('print-body')
 <?php 
 	$getBuyerName = '';
