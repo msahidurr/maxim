@@ -118,7 +118,6 @@ class MrfController extends Controller
         }else{
         $finalData[] = $datas - $keys;  //finalData[] is same as twoArray[]
       }
-      }
 
       $tempp = $this->array_combine_($allId, $finalData);
       foreach ($tempp as $key => $value) {
@@ -143,7 +142,6 @@ class MrfController extends Controller
         $challanMinusValueInsert->item_quantity = $minusValues['item_quantity'];
         $challanMinusValueInsert->mrf_quantity = $minusValues['mrf_quantity'];
         $challanMinusValueInsert->update();
-      }
 
       $cc = MxpMrf::count();
       $count = str_pad($cc + 1, 4, 0, STR_PAD_LEFT);

@@ -147,10 +147,11 @@
 												<td colspan="2" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					<?php $__currentLoopData = $itemQtyValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size => $Qty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+								    					<?php $__currentLoopData = $mrf_quantity; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mrf): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 									    					<?php if(empty($size)): ?>
 										    					<tr>
-										    						<td width="50%"></td>
-													    			<td width="50%" class="aaa">
+										    						<td width="40%"></td>
+													    			<td width="30%" class="aaa">
 													    				<input type="hidden" name="allId[]" value="<?php echo e($item->id); ?>">
 																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="<?php echo e($Qty); ?>" >
 													    			</td>
@@ -169,6 +170,7 @@
 													    			</td>
 										    					</tr>
 									    					<?php endif; ?>
+								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    				</table>
 								    			</td>

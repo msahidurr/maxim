@@ -147,10 +147,11 @@
 												<td colspan="2" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					@foreach ($itemQtyValue as $size => $Qty)
+								    					@foreach ($mrf_quantity as $mrf)
 									    					@if(empty($size))
 										    					<tr>
-										    						<td width="50%"></td>
-													    			<td width="50%" class="aaa">
+										    						<td width="40%"></td>
+													    			<td width="30%" class="aaa">
 													    				<input type="hidden" name="allId[]" value="{{$item->id}}">
 																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}" >
 													    			</td>
@@ -168,6 +169,7 @@
 													    			</td>
 										    					</tr>
 									    					@endif
+								    					@endforeach
 								    					@endforeach
 								    				</table>
 								    			</td>
