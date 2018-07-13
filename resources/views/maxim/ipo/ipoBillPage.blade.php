@@ -1,4 +1,5 @@
 @extends('maxim.layouts.layouts')
+@section('title','IPO Maxim')
 @section('print-body')
 
 	<center>
