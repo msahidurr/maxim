@@ -1,4 +1,5 @@
 @extends('maxim.layouts.layouts')
+@section('title','MRF Maxim')
 @section('print-body')
 
 	<center>
@@ -128,8 +129,14 @@
     				foreach ($itemsize as $itemlengths) {
     					$itemlength = sizeof($itemlengths);
     				}
-    				$itemQtyValue = array_combine($itemsize, $qty);   				
+    				$itemQtyValue = array_combine($itemsize, $qty);
+
+    				$emptyCheckMrf = 0;
+    				foreach ($qty as $mrfQtys) {
+    					$emptyCheckMrf += $mrfQtys;
+    				}
     			?>
+    			@if( $emptyCheckMrf > 0)
 	    			<tr>
 	    				<td>{{$j++}}</td>
 	    				<td>{{$item->erp_code}}</td>
@@ -165,6 +172,7 @@
     						$totalAllQty += $totalQty;
     					?>
 	    			</tr>
+	    		@endif
     		@endforeach
     	
     	<tr>
