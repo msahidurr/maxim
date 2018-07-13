@@ -21,7 +21,7 @@ class ColorController extends Controller
 
     public function listView(){
     	$roleManage = new RoleManagement();
-    	$gmtsColor = MxpGmtsColor::where('user_id',Auth::user()->user_id)->paginate(10);
+    	$gmtsColor = MxpGmtsColor::where('user_id',Auth::user()->user_id)->where('item_code', NULL)->paginate(10);
     	return view('color_management.color_list',compact('gmtsColor'));
     }
 
@@ -65,8 +65,16 @@ class ColorController extends Controller
 		$insertGmtsColor->action = self::CREATE_GMTS_COLOR;
 		$insertGmtsColor->status = $request->isActive;
 		$insertGmtsColor->save();
+        $lastId = $insertGmtsColor->id;
 
     	StatusMessage::create('add_gmtscolor', $request->p_code .' ' .$request->gmts_color.' Created Successfully');
+
+        if(isset($request->request_type) && $request->request_type == 'ajax'){
+            return [
+                'color_id' => $lastId,
+                'color_name' => $request->gmts_color
+            ];
+        }
 
 		return \Redirect()->Route('gmts_color_view');
     }
@@ -76,12 +84,12 @@ class ColorController extends Controller
     	$roleManage = new RoleManagement();
 
         $validMessages = [
-            'p_code.required' => 'Product code field is required.',
+//            'p_code.required' => 'Product code field is required.',
             'gmts_color.required' => 'Color field is required.',
             ];
     	$validator = Validator::make($datas, 
             [
-    			'p_code' => 'required',
+//    			'p_code' => 'required',
     			'gmts_color' => 'required',
 		    ],
             $validMessages
@@ -94,7 +102,6 @@ class ColorController extends Controller
 		$validationError = $validator->messages();
 		$updateGmtsColor = MxpGmtsColor::find($request->color_id);
 		$updateGmtsColor->user_id = Auth::user()->user_id;
-		$updateGmtsColor->item_code = $request->p_code;
 		$updateGmtsColor->color_name = $request->gmts_color;
 		$updateGmtsColor->action = self::UPDATE_GMTS_COLOR;
 		$updateGmtsColor->status = $request->isActive;
