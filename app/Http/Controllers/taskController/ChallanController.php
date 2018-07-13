@@ -176,7 +176,7 @@ class ChallanController extends Controller
 		  $insertMultipleChallan->user_id = Auth::user()->user_id;
 
 		  $insertMultipleChallan->challan_id = $MultipleChallanUniqueID;
-		  $insertMultipleChallan->checking_id = $MultipleCheckingUniqueID;
+		  $insertMultipleChallan->checking_id = $challanValue->booking_order_id;
 
 		  // $insertMultipleChallan->bill_id = $challanValue->bill_id;
 		  $insertMultipleChallan->erp_code = $challanValue->erp_code;
@@ -199,7 +199,7 @@ class ChallanController extends Controller
 		}        
 		}
 
-    	$headerValue = DB::select("select * from mxp_header");
+    	$headerValue = DB::table("mxp_header")->where('header_type',11)->get();
     	$multipleChallan = DB::select(" select * from Mxp_multipleChallan where challan_id ='".$MultipleChallanUniqueID."'");
       $buyerDetails = DB::table("mxp_bookingBuyer_details")->where('booking_order_id',$booking_order_id)->get();
     	$footerData = DB::select("select * from mxp_reportFooter");
