@@ -275,5 +275,6 @@ return [
 'new_mrf_create_label' => 'New MRF Create',
 'create_button_lable' => 'Create',
 'mxp_menu_mrf_list' => 'MRF List',
+'mxp_menu_challan_list' => 'Challan List',
 
 ];
