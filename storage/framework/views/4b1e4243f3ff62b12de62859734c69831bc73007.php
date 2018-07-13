@@ -1,3 +1,4 @@
+<?php $__env->startSection('title','MRF Maxim'); ?>
 <?php $__env->startSection('print-body'); ?>
 
 	<center>
@@ -128,8 +129,14 @@
     				foreach ($itemsize as $itemlengths) {
     					$itemlength = sizeof($itemlengths);
     				}
-    				$itemQtyValue = array_combine($itemsize, $qty);   				
+    				$itemQtyValue = array_combine($itemsize, $qty);
+
+    				$emptyCheckMrf = 0;
+    				foreach ($qty as $mrfQtys) {
+    					$emptyCheckMrf += $mrfQtys;
+    				}
     			?>
+    			<?php if( $emptyCheckMrf > 0): ?>
 	    			<tr>
 	    				<td><?php echo e($j++); ?></td>
 	    				<td><?php echo e($item->erp_code); ?></td>
@@ -165,6 +172,7 @@
     						$totalAllQty += $totalQty;
     					?>
 	    			</tr>
+	    		<?php endif; ?>
     		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
     	
     	<tr>

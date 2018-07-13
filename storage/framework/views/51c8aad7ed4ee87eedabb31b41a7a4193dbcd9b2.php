@@ -1,3 +1,4 @@
+<?php $__env->startSection('title','Challan Maxim'); ?>
 <?php $__env->startSection('print-body'); ?>
 
 	<center>
@@ -59,7 +60,7 @@
 					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		</div>
 		
-		<div class="col-md-4 col-sm-4 col-xs-5">
+		<div class="col-md-4 col-sm-4 col-xs-5 valueGenarate">
 			<?php ($i=0); ?>
 			<?php $__currentLoopData = $multipleChallan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $billdata): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 				<?php for($i;$i <= 0;$i++): ?>

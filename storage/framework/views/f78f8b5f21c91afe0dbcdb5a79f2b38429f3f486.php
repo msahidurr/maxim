@@ -1,3 +1,4 @@
+<?php $__env->startSection('title','Booking Maxim'); ?>
 <?php $__env->startSection('print-body'); ?>
 <?php 
 	$getBuyerName = '';

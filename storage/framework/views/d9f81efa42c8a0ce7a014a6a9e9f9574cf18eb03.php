@@ -147,7 +147,6 @@
 												<td colspan="2" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					<?php $__currentLoopData = $itemQtyValue; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $size => $Qty): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-								    					<?php $__currentLoopData = $mrf_quantity; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $mrf): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 									    					<?php if(empty($size)): ?>
 										    					<tr>
 										    						<td width="40%"></td>
@@ -170,7 +169,6 @@
 													    			</td>
 										    					</tr>
 									    					<?php endif; ?>
-								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    					<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 								    				</table>
 								    			</td>
