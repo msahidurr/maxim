@@ -29,6 +29,7 @@ class MrfController extends Controller
 	    return  $result;
 	}
     public function addMrf(Request $request){
+
       $datas = $request->all();
       $booking_order_id = $request->booking_order_id;
       $allId = $datas['allId'];
@@ -38,8 +39,9 @@ class MrfController extends Controller
       - This Array most important to create challan
       - and update BookingChallan table
       **/
-
+        $combineMrfInputAndDb= '';
         $tempValue = [];
+        $tempMrfValue = [];
         $quantity = [];
         $dbValue = [];
         $finalData = [];
@@ -72,25 +74,108 @@ class MrfController extends Controller
 
       $temp = $this->array_combine_ ($allId ,$product_qty);
 
+
+      /**
+      - This Section add new MRF qty + DB MRF qty.
+      **/
+
+      $mrfQuantityDb = [];
       foreach ($temp as $key => $value) {
-          if(sizeof($value) > 1){
-            $tempValue[$key]= implode(',', $value);
+        $getMrfDbvalue = DB::select(" select mrf_quantity from mxp_booking_challan where id ='".$key."'");
+        foreach ($getMrfDbvalue as $Mrfvalue) {
+          $mrfQuantityDb[$key] = explode(',', $Mrfvalue->mrf_quantity);
+        }
+      }
+      // self::print_me($mrfQuantityDb);
+       $mrfInputValues = [];
+        foreach ($temp as $key => $tempsValue) {
+          if(sizeof($tempsValue) >1){
+            foreach ($tempsValue as $tempItem) {
+              $mrfInputValues[] = $tempItem;
+            }
           }else{
-            $tempValue[$key] = $value;
+            $mrfInputValues[] = $tempsValue;
           }
         }
 
-        /**
-      - This section most importent to update all array
-      - value. Becouse this section create to array_combine
-      - database primary id.
-      - @param $maindata
+        $mrfDbQty = [];
+        foreach ($mrfQuantityDb as $key => $mrfDb) {
+
+          if(sizeof($mrfDb) > 1){
+            foreach ($mrfDb as $mrfDbItems) {
+              $mrfDbQty[] = $mrfDbItems;
+            }
+          }else{
+            foreach ($mrfDb as $valuess) {
+            $mrfDbQty[] = $valuess;
+            }
+          }
+        }
+
+      foreach ($mrfQuantityDb as $mrfQuantity) {
+        foreach ($mrfQuantity as $mrf) {
+
+            if(empty($mrf)){
+              foreach ($temp as $key => $value) {
+                if(sizeof($value) > 1){
+                  $tempValue[$key]= implode(',', $value);
+                }else{
+                  $tempValue[$key] = $value;
+                }
+              }
+            }else{
+               $combineMrfInputAndDb = $this->array_combine_($mrfInputValues,$mrfDbQty);
+            }
+        }
+      }
+      // self::print_me($combineMrfInputAndDb);
+      if(!empty($combineMrfInputAndDb)){
+
+          foreach ($combineMrfInputAndDb as $mrfInputValuesKeys => $mrfDbQtys) {
+            if(sizeof($mrfDbQtys) > 1){
+              foreach ($mrfDbQtys as $mrfQtys) {
+               $tempMrfValue[] = $mrfQtys + $mrfInputValuesKeys;
+              }
+            }else{
+            $tempMrfValue[] = $mrfDbQtys + $mrfInputValuesKeys;  //finalMrfData[] is same as twoArray[]
+          }
+        }
+
+        $InputMrfAndDbMrfValue = $this->array_combine_($allId,$tempMrfValue);
+
+          foreach ($InputMrfAndDbMrfValue as $key => $value) {
+              if(sizeof($value) > 1){
+                $tempValue[$key]= implode(',', $value);
+              }else{
+                $tempValue[$key] = $value;
+              }
+            }
+      }
+
+
+      /**
+        - End Section.
       **/
 
-      $one_uniq = array_unique($allId);
-      $mainData = array_combine($one_uniq, $tempValue);
+      /**
+        - This section most importent to update all array
+        - value. Becouse this section create to array_combine
+        - database primary id.
+        - @param $maindata
+      **/
 
-      // self::print_me($mainData);
+      $inputMrfValue = $this->array_combine_($allId,$product_qty);
+      foreach ($inputMrfValue as $key => $value) {
+          if(sizeof($value) > 1){
+            $mainData[$key]= implode(',', $value);
+          }else{
+            $mainData[$key] = $value;
+          }
+        }
+      // $one_uniq = array_unique($allId);
+      // $mainData = array_combine($one_uniq, $tempValue);
+
+
 
       /** This code only for mxp_booking_Challan Table update **/
 
@@ -118,7 +203,7 @@ class MrfController extends Controller
         }else{
         $finalData[] = $datas - $keys;  //finalData[] is same as twoArray[]
       }
-
+    }
       $tempp = $this->array_combine_($allId, $finalData);
       foreach ($tempp as $key => $value) {
           if(sizeof($value) > 1){
@@ -127,6 +212,8 @@ class MrfController extends Controller
             $tempValues[$key] = $value;
           }
       }
+
+      // self::print_me($tempValue);
 
       $makeOneArray = [];
       foreach ($tempValue as $key => $value) {
@@ -142,6 +229,7 @@ class MrfController extends Controller
         $challanMinusValueInsert->item_quantity = $minusValues['item_quantity'];
         $challanMinusValueInsert->mrf_quantity = $minusValues['mrf_quantity'];
         $challanMinusValueInsert->update();
+      }
 
       $cc = MxpMrf::count();
       $count = str_pad($cc + 1, 4, 0, STR_PAD_LEFT);
