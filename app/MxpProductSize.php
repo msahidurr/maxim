@@ -9,5 +9,5 @@ class MxpProductSize extends Model
     protected $table = 'mxp_productSize';
 	protected $primaryKey = 'proSize_id';
 
-	protected $fillable = ['user_id','product_code','product_size','status','action'];
+	protected $fillable = ['proSize_id', 'user_id','product_size','status','action'];
 }
