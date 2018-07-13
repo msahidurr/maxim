@@ -218,16 +218,19 @@ $(document).ready(function(){
 //     $('#myInput').trigger('focus')
 // })
 
-$('.close').on('click', function(){
+$('#addBrandModal .close').on('click', function(){
     $('#addBrandModal').modal('toggle');
 });
 
+$('#addColorModal .close').on('click', function(){
+    $('#addColorModal').modal('toggle');
+});
+
+$('#addSizeModal .close').on('click', function(){
+    $('#addSizeModal').modal('toggle');
+});
 
 $('.add-product-brand').on('click', function(){
-
-    // alert($('input[name=brand_name]').val());
-    // alert($('select[name=isActive]').val());
-
     $.ajax({
         type: "POST",
         url: "/add/brand/action",
@@ -250,3 +253,57 @@ $('.add-product-brand').on('click', function(){
 
     $('#addBrandModal').modal('toggle');
 });
+
+
+
+
+
+
+$('.add-color-brand').on('click', function(){
+    $.ajax({
+        type: "POST",
+        url: "/add/gmts/color/action",
+        data: 'request_type=ajax&gmts_color='+$('input[name=color_name]').val()+'&isActive='+$('select[name=isActive]').val()+'&_token='+$('input[name=_token]').val(),
+        cache: false,
+        async: false,
+        success: function(result) {
+            $('.select-color-list').append($('<option>', {
+                value: result['color_id'],
+                text: result['color_name']
+            }));
+
+        },
+        error: function(data) {
+            result('Product Color Error: '+ data);
+        },
+
+    });
+
+    $('#addColorModal').modal('toggle');
+});
+
+
+$('.add-size-brand').on('click', function(){
+    $.ajax({
+        type: "POST",
+        url: "/add/product_size",
+        data: 'request_type=ajax&p_size='+$('input[name=size_name]').val()+'&isActive='+$('select[name=isActive]').val()+'&_token='+$('input[name=_token]').val(),
+        cache: false,
+        async: false,
+        success: function(result) {
+            $('.select-size-list').append($('<option>', {
+                value: result['size_id'],
+                text: result['product_size']
+            }));
+
+        },
+        error: function(data) {
+            result('Product Size Error: '+ data);
+        },
+
+    });
+
+    $('#addSizeModal').modal('toggle');
+});
+
+
