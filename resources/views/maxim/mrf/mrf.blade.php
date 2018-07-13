@@ -147,7 +147,6 @@
 												<td colspan="2" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					@foreach ($itemQtyValue as $size => $Qty)
-								    					@foreach ($mrf_quantity as $mrf)
 									    					@if(empty($size))
 										    					<tr>
 										    						<td width="40%"></td>
@@ -169,7 +168,6 @@
 													    			</td>
 										    					</tr>
 									    					@endif
-								    					@endforeach
 								    					@endforeach
 								    				</table>
 								    			</td>
