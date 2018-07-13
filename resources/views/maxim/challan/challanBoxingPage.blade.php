@@ -1,4 +1,5 @@
 @extends('maxim.layouts.layouts')
+@section('title','Challan Maxim')
 @section('print-body')
 
 	<center>
