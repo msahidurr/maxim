@@ -5,7 +5,7 @@
 @section('section')
 	<div class="row">
 		<div class="col-md-12 col-md-offset-0">
-			<table class="table table-bordered table-striped ">
+			<table class="table table-bordered">
 				<tr>
 					<thead>
 						<th>Serial no</th>
