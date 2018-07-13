@@ -1,4 +1,5 @@
 @extends('maxim.layouts.layouts')
+@section('title','PI Maxim')
 @section('print-body')
 
 <center>
