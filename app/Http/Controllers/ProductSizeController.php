@@ -17,7 +17,7 @@ class ProductSizeController extends Controller
 	const UPDATE_SIZE = "update";
     
     public function sizeView(){
-    	$productSize = MxpProductSize::where('user_id',Auth::user()->user_id)->paginate(15);
+    	$productSize = MxpProductSize::where('user_id',Auth::user()->user_id)->where('product_code', '')->paginate(15);
     	return view('product_management.product_size.product_size_view',compact('productSize'));
     }
 
@@ -41,12 +41,12 @@ class ProductSizeController extends Controller
             ];
         $datas = $request->all();
     	$validator = Validator::make($datas, 
-            [
-//    			'p_code' => 'required',
-    			'p_size' => 'required'
-		    ],
-            $validMessages
-    );
+                [
+    //    			'p_code' => 'required',
+                    'p_size' => 'required'
+                ],
+                $validMessages
+        );
 		if ($validator->fails()) {
 			return redirect()->back()->withInput($request->input())->withErrors($validator->messages());
 		}
@@ -59,8 +59,16 @@ class ProductSizeController extends Controller
     	$createSize->status = $request->isActive;
     	$createSize->action = self::CREATE_SIZE;
     	$createSize->save();
+        $lastId = $createSize->proSize_id;
 
 		StatusMessage::create('add_size_title', 'New product Size Created Successfully');
+
+        if(isset($request->request_type) && $request->request_type == 'ajax'){
+            return [
+                'size_id' => $lastId,
+                'product_size' => $request->p_size
+            ];
+        }
 
 		return \Redirect()->Route('product_size_view');
     }
@@ -69,13 +77,13 @@ class ProductSizeController extends Controller
     	$roleManage = new RoleManagement();
 
         $validMessages = [
-            'p_code.required' => 'Product code field is required.',
+//            'p_code.required' => 'Product code field is required.',
             'p_size.required' => 'Size field is required.'
             ];
         $datas = $request->all();
     	$validator = Validator::make($datas, 
             [
-    			'p_code' => 'required',
+//    			'p_code' => 'required',
     			'p_size' => 'required'
 		    ],
             $validMessages
@@ -87,7 +95,6 @@ class ProductSizeController extends Controller
 		$validationError = $validator->messages();
     	$updateSize = MxpProductSize::find($request->size_id);
     	$updateSize->user_id = Auth::user()->user_id;
-    	$updateSize->product_code = $request->p_code;
     	$updateSize->product_size = $request->p_size;
     	$updateSize->status = $request->isActive;
     	$updateSize->action = self::UPDATE_SIZE;
