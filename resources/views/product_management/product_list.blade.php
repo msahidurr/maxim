@@ -53,6 +53,8 @@
                         <!-- <th class="">Description</th> -->
                         <th class="">Brand</th>                        
                         <th class="">Unit Price</th>
+                        <th class="">Sizes</th>
+                        <th class="">Colors</th>
                         <!-- <th class="">Weight Qty</th> -->
                         <!-- <th class="">Weight Amt</th> -->
                         <th class="">status</th>
@@ -73,6 +75,17 @@
                           <td>{{$product->unit_price}}</td>
                           <!-- <td>{{$product->weight_qty}}</td> -->
                           <!-- <td>{{$product->weight_amt}}</td> -->
+                          <td>
+                              @foreach($product->sizes as $size)
+                                  {{ $size->product_size }}@if (!$loop->last),@endif
+                              @endforeach
+                          </td>
+
+                          <td>
+                              @foreach($product->colors as $color)
+                                  {{$color->color_name}}@if (!$loop->last),@endif
+                              @endforeach
+                          </td>
                           <td>
                             {{($product->status == 1)? trans("others.action_active_label"):trans("others.action_inactive_label")}}
                           </td>

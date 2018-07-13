@@ -41,7 +41,7 @@ trans('others.product_size_list'))
 	                <thead>
 	                    <tr>
 	                    	<th width="10%">Serial no</th>
-	                    	<th width="25%">Product code</th>
+	                    	{{--<th width="25%">Product code</th>--}}
 	                    	<th width="20%">Product size</th>
 	                    	<th width="20%">Status</th>
 	                        <th width="25%">Action</th>
@@ -52,7 +52,7 @@ trans('others.product_size_list'))
                     @foreach($productSize as $size)                  
                         <tr>                        	
                         	<td>{{$i++}}</td>
-                        	<td>{{$size->product_code}}</td>                	
+{{--                        	<td>{{$size->product_code}}</td>                	--}}
                         	<td>{{$size->product_size}}</td>                	
                         	<td>
                             {{($size->status == 1)? trans("others.action_active_label"):trans("others.action_inactive_label")}}

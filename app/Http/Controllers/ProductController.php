@@ -7,9 +7,14 @@ use App\Http\Controllers\Message\StatusMessage;
 use App\Http\Controllers\RoleManagement;
 use App\MxpProduct;
 use App\MxpBrand;
+use App\MxpProductsColors;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
+use App\Model\MxpGmtsColor;
+use App\MxpProductSize;
+use App\MxpProductsSizes;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -18,23 +23,81 @@ class ProductController extends Controller
 	const ACTIVE_BRAND = 1;
 
     Public function productList(){
-    	$products = MxpProduct::where('user_id',Auth::user()->user_id)->paginate(20);
+
+
+        $products = $this->allProducts();
     	return view('product_management.product_list',compact('products'));
+    }
+
+    public function allProducts($productId = null){
+
+        if($productId == null ){
+            $proWithSizeColors = MxpProduct::with('colors', 'sizes')->where('user_id',Auth::user()->user_id)->paginate(20);
+        }else{
+            $proWithSizeColors = MxpProduct::with('colors', 'sizes')->where('product_id', $productId)->where('user_id',Auth::user()->user_id)->paginate(20);
+        }
+
+
+
+        $i=0;
+        foreach ($proWithSizeColors as $proWithSizeColor) {
+            $j = 0;
+            foreach ($proWithSizeColor->colors as $colorids) {
+                $proWithSizeColors[$i]->colors[$j]->setAttribute('color_name', MxpGmtsColor::select('color_name')->where('id', '=', $colorids->color_id)->get()[0]->color_name);
+                $j++;
+            }
+
+            $j = 0;
+            foreach ($proWithSizeColor->sizes as $sizeids) {
+                $proWithSizeColors[$i]->sizes[$j]->setAttribute('product_size', MxpProductSize::select('product_size')->where('proSize_id', '=', $sizeids->size_id)->get()[0]->product_size);
+                $j++;
+            }
+
+            $i++;
+        }
+
+        return  $proWithSizeColors;
     }
 
     Public function addProductListView(){
 
         $brands = MxpBrand::where([['user_id',Auth::user()->user_id],['status', self::ACTIVE_BRAND]])->get();
-    	return view('product_management.add_product',compact('brands'));
+        $colors = MxpGmtsColor::where('user_id',Auth::user()->user_id)->where('item_code', NULL)->where('status', '=', 1)->get();
+        $sizes = MxpProductSize::where('user_id',Auth::user()->user_id)->where('product_code', '')->where('status', '=', 1)->get();
+    	return view('product_management.add_product',compact('brands', 'colors', 'sizes'));
     }
+
     Public function updateProductView(Request $request){
         $brands = MxpBrand::where('status', self::ACTIVE_BRAND)->get();
-    	$product = MxpProduct::where('product_id', $request->product_id)->get();
 
-    	return view('product_management.update_product', compact('product'))->with('brands',$brands);
+//    	$product = MxpProduct::where('product_id', $request->product_id)->get();
+
+        $product = $this->allProducts($request->product_id);
+        $colors = MxpGmtsColor::where('item_code', NULL)->get();
+        $sizes = MxpProductSize::where('product_code', '')->get();
+
+        $colorsJs=[];
+        $sizesJs=[];
+
+        foreach ($product as $color){
+            foreach ($color->colors as $data){
+
+                array_push($colorsJs, $data->color_id.','.$data->color_name);
+            }
+        }
+
+        foreach ($product as $size){
+            foreach ($size->sizes as $data){
+                array_push($sizesJs, $data->size_id.','.$data->product_size);
+            }
+        }
+
+    	return view('product_management.update_product', compact('product', 'colors', 'sizes', 'colorsJs', 'sizesJs'))->with('brands',$brands);
     }
 
     Public function addProduct(Request $request){
+
+
     	$roleManage = new RoleManagement();
 
         $validMessages = [
@@ -66,6 +129,8 @@ class ProductController extends Controller
 
 		$validationError = $validator->messages();
 
+
+
     	$createProduct = new MxpProduct();
     	$createProduct->product_code = $request->p_code;
     	$createProduct->product_name = $request->p_name;
@@ -80,6 +145,37 @@ class ProductController extends Controller
         $createProduct->others_color = $request->others_color;
     	$createProduct->action = self::CREATE_PRODUCT;
     	$createProduct->save();
+
+    	$lastProId = $createProduct->product_id;
+
+    	for ($i=0; $i<count($request->colors); $i++){
+
+    	    $colorData = explode(',', $request->colors[$i]);
+
+    	    $storeColor = new MxpProductsColors();
+            $storeColor->product_id = $lastProId;
+            $storeColor->color_id = $colorData[0];
+            $storeColor->status = 1;
+            $storeColor->save();
+
+            $this->saveColor($colorData[1], $request->p_code);
+        }
+
+
+        for ($i=0; $i<count($request->sizes); $i++){
+
+    	    $sizeData = explode(',', $request->sizes[$i]);
+
+            $storeSize = new MxpProductsSizes();
+            $storeSize->product_id = $lastProId;
+            $storeSize->size_id = $sizeData[0];
+            $storeSize->status = 1;
+            $storeSize->save();
+
+            $this->saveSize($sizeData[1], $request->p_code);
+        }
+
+
 
 		StatusMessage::create('new_product_create', 'New product Created Successfully');
 
@@ -100,7 +196,8 @@ class ProductController extends Controller
             'p_brand' => 'required'
 		   ],
            $validMessages
-    );
+        );
+
 		if ($validator->fails()) {
 			return redirect()->back()->withInput($request->input())->withErrors($validator->messages());
 		}
@@ -125,6 +222,48 @@ class ProductController extends Controller
     	$updateProduct->others_color = $request->others_color;
         $updateProduct->action = self::CREATE_PRODUCT;
     	$updateProduct->save();
+    	$lastProductID = $updateProduct->product_id;
+
+
+
+
+        MxpProductsColors::where('product_id', $lastProductID)->delete();
+        MxpGmtsColor::where('item_code', $request->p_code)->delete();
+
+        if(isset($request->colors)) {
+            for ($i = 0; $i < count($request->colors); $i++) {
+                $id = explode(',', $request->colors[$i])[0];
+                $color_name = explode(',', $request->colors[$i])[1];
+                $color = new MxpProductsColors();
+                $color->product_id = $lastProductID;
+                $color->color_id = $id;
+                $color->status = 1;
+                $color->save();
+
+                $this->saveColor($color_name, $request->p_code);
+            }
+        }
+
+
+        MxpProductsSizes::where('product_id', $lastProductID)->delete();
+        MxpProductSize::where('product_code', $request->p_code)->delete();
+
+        if (isset($request->sizes)) {
+            for ($i = 0; $i < count($request->sizes); $i++) {
+
+                $id = explode(',', $request->sizes[$i])[0];
+                $size_name = explode(',', $request->sizes[$i])[1];
+
+                $size = new MxpProductsSizes();
+                $size ->product_id = $lastProductID;
+                $size ->size_id = $id;
+                $size ->status = 1;
+                $size->save();
+
+                $this->saveSize($size_name , $request->p_code);
+            }
+        }
+
 
 		StatusMessage::create('update_product_create', $request->p_name .' update Successfully');
 
@@ -137,5 +276,27 @@ class ProductController extends Controller
 		StatusMessage::create('new_product_delete',$product->product_name .' delete Successfully');
 		return redirect()->Route('product_list_view');
 	}
+
+
+	public function saveColor($color, $productCode){
+        $insertGmtsColor = new MxpGmtsColor();
+        $insertGmtsColor->user_id = Auth::user()->user_id;
+		$insertGmtsColor->item_code = $productCode;
+        $insertGmtsColor->color_name = $color;
+        $insertGmtsColor->action = 'create';
+        $insertGmtsColor->status = 1;
+        $insertGmtsColor->save();
+        return 0;
+    }
+    public function saveSize($size, $productCode){
+        $createSize = new MxpProductSize();
+        $createSize->user_id = Auth::user()->user_id;
+    	$createSize->product_code = $productCode;
+        $createSize->product_size = $size;
+        $createSize->status = 1;
+        $createSize->action = 'create';
+        $createSize->save();
+        return 0;
+    }
 
 }
