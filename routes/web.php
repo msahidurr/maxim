@@ -816,6 +816,17 @@ Route::group(['middleware' => 'auth'], function () {
                 'uses'=>'taskController\ChallanController@addChallan'
             ]);
 
+            Route::get('view/challan/list',
+            [
+                'as'=>'challan_list_view',
+                'uses'=>'taskController\ChallanListController@challanListView'
+            ]);
+            Route::get('challan/list/action/task',
+            [
+                'as'=>'challan_list_action_task',
+                'uses'=>'taskController\ChallanListController@showChallanReport'
+            ]);
+
 
             /** there are all MRF routes here **/
 
