@@ -2,6 +2,11 @@
 @section('page_heading',
 trans('others.update_product_label'))
 @section('section')
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+
+    @extends('product_management.product_modal')
+
 <div class="container-fluid">
         <div class="row">
              <div class="col-md-12 ">   <!--col-md-offset-2 -->
@@ -62,6 +67,57 @@ trans('others.update_product_label'))
                                             <input type="text" class="form-control" name="others_color" value="{{$data->others_color}}">
                                         </div>
                                     </div> -->
+
+                                    {{--Add Color MultiSelect Box--}}
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Color</label>
+                                        <div class="col-md-6">
+                                            <div class="product-brand-list" style="width:80%; float: left;">
+
+                                                <select class="select-color-list" name="colors[]" multiple="multiple">
+                                                    <option value="">Choose Color</option>
+                                                    @foreach($colors as $color)
+                                                        <option value="{{$color->id}},{{$color->color_name}}">{{$color->color_name}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                            </div>
+                                            <div class="add-color-btn" style="width:20%; float: left; padding-top: 5px;">
+                                                <a  data-toggle="modal" data-target="#addColorModal">
+                                                    <i class="material-icons">
+                                                        add_circle_outline
+                                                    </i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{--End Add Color MultiSelect Box--}}
+
+
+                                    {{--Add Size MultiSelect Box--}}
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label">Size</label>
+                                        <div class="col-md-6">
+                                            <div class="product-size-list" style="width:80%; float: left;">
+
+                                                <select class="select-size-list" name="sizes[]" multiple="multiple">
+                                                    <option value="">Choose Size</option>
+                                                    @foreach($sizes as $size)
+                                                        <option value="{{$size->proSize_id}},{{$size->product_size}}">{{$size->product_size}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <div class="add-brand-btn" style="width:20%; float: left; padding-top: 5px;">
+                                                <a  data-toggle="modal" data-target="#addSizeModal">
+                                                    <i class="material-icons">
+                                                        add_circle_outline
+                                                    </i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{--End Add Size MultiSelect Box--}}
+
 
                                 </div>
 
@@ -131,5 +187,19 @@ trans('others.update_product_label'))
 
     <script type="text/javascript">
         $(".selections").select2();
+
+        // $(".select-color-list").select2();
+        // $(".select-size-list").select2();
+
+        var selectedColors = $(".select-color-list").select2();
+        var selectedSizes = $(".select-size-list").select2();
+
+        var colors = {!! json_encode($colorsJs) !!};
+        var sizes = {!! json_encode($sizesJs) !!};
+
+        selectedColors.val(colors).trigger("change");
+        selectedSizes.val(sizes).trigger("change");
+        // });
+
     </script>
 @endsection
