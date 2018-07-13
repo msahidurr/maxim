@@ -2,6 +2,13 @@
 @section('page_heading', trans("others.new_mrf_create_label"))
 @section('section')
 <style type="text/css">
+	.top-div{
+		background-color: #f9f9f9; 
+		padding:5px 0px 5px 10px; 
+		border-radius: 7px;
+		box-sizing: border-box;
+		display: block;
+	}
 	.showMrfList{
 		background-color: #f9f9f9;
 		border-radius: 10px;
@@ -9,24 +16,24 @@
 		box-shadow: 0 10px 20px rgba(0,0,0,0.10), 0 6px 6px rgba(0,0,0,0.15);
 		z-index: 999;
 	}
-	.mrfControl{
+	.top-div .mrfControl{
 		text-align: left;
 		width:30%;
 		display: inline-block;
 	}
-	.mrfControl .all{
+	.top-div .mrfControl .all{
 		display: inline;
 		float: left;
 		width: 10%;
 	}
 
 	@media (max-width: 300px) {
-		.mrfControl{
+		.top-div .mrfControl{
 		text-align: left;
 		width:40%;
 		display: inline-block;
 	}
-	.mrfControl .all{
+	.top-div .mrfControl .all{
 		display: inline;
 		float: left;
 		width: 25%;
@@ -35,6 +42,17 @@
 </style>
 
     <div class="container-fluid">
+    	@if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+
     	@if(Session::has('erro_challan'))
             @include('widgets.alert', array('class'=>'danger', 'message'=> Session::get('erro_challan') ))
 		@endif
@@ -46,20 +64,29 @@
 						<div class="panel-body">
 							<table class="table table-striped table-bordered">
 								<thead>
-									<th>#</th>
-									<th>Booking Id</th>
-									<th>MRF Id</th>
-									<th>Action</th>
+									<tr>
+										<th>#</th>
+										<th>Booking Id</th>
+										<th>MRF Id</th>
+										<th>Action</th>
+									</tr>
 								</thead>
 								<tbody>
-									<td>1</td>
-									<td>BK-011822-CL-001</td>
-									<td>MRF-087655-001</td>
-									<td>
-										<button type="submit" name="mrf_view" class="btn btn-success">
-											View
-										</button>
-									</td>
+									@php($i=1)
+									@foreach($MrfDetails as $details)
+									<tr>
+										<td>{{$i++}}</td>
+										<td>{{$details->booking_order_id}}</td>
+										<td>{{$details->mrf_id}}</td>
+										<td>
+											<form action="{{Route('mrf_list_action_task') }}" role="form" target="_blank">
+												<input type="hidden" name="mid" value="{{$details->mrf_id}}">
+												<input type="hidden" name="bid" value="{{$details->booking_order_id}}">
+												<button class="btn btn-success" >View</button>
+											</form>
+										</td>
+									</tr>
+									@endforeach								
 								</tbody>
 							</table>
 						</div>
@@ -71,24 +98,24 @@
 							@if(!empty($bookingDetails))	
 								<form class="form-horizontal" role="form" method="POST" action="{{ Route('mrf_action_task') }}">
 									<input type="hidden" name="_token" value="{{ csrf_token() }}">
+									<input type="hidden" name="booking_order_id" value="{{$booking_order_id}}">
 
-									<div class="col-md-12 col-sm-12 col-xs-12">
-										<div class="mrfControl">
-											<div class="all">
-												<input type="checkbox" name="selectAllMrf" id="selectAllMrf" class="">
-											</div>
-											<div class="all">
-												<label for="selectAllMrf">All</label>
-											</div>
-											<div class="all">
-												<input type="checkbox" name="editMrf" id="editMrf">
-											</div>
-											<div class="all">
-												<label for="editMrf">Edit</label>
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-12 label-control">MRF Person Name</label>
+											<div class="col-sm-12">
+												<input class="form-control" type="text" name="mrf_person_name" placeholder="Enter Name" required>
 											</div>
 										</div>
 									</div>
-
+									<div class="col-sm-6">
+										<div class="form-group">
+											<label class="col-sm-12 label-control">Shipment Date</label>
+											<div class="col-sm-12">
+												<input class="form-control" type="Date" name="mrf_shipment_date" required>
+											</div>
+										</div>
+									</div>
 									<table class="table table-bordered table-striped" >
 										<thead>
 											<tr>
@@ -117,7 +144,7 @@
 												</td>
 												<td><span>{{$item->erp_code}}</span></td>
 												<td><span>{{$item->item_code}}</span></td>
-												<td colspan="3" class="colspan-td">
+												<td colspan="2" class="colspan-td">
 								    				<table width="100%" id="sampleTbl">
 								    					@foreach ($itemQtyValue as $size => $Qty)
 								    					@foreach ($mrf_quantity as $mrf)
@@ -128,29 +155,36 @@
 													    				<input type="hidden" name="allId[]" value="{{$item->id}}">
 																		<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}" >
 													    			</td>
-													    			<td width="30%"></td>
 													    		</tr>
 									    					@else
 										    					<tr>
-										    						<td width="40%">
+										    						<td width="50%">
 										    							{{$size}}
 										    						</td>
-													    			<td width="30%" class="aaa">
+													    			<td width="50%" class="aaa">
 										    							<input type="hidden" name="allId[]" value="{{$item->id}}">
 										    							<div class="question_div">
 																			<input type="text" class="form-control item_quantity" name="product_qty[]" value="{{$Qty}}">
 													    				</div>
-
-													    			</td>
-
-													    			<td width="30%">
-													    				<input type="text" class="form-control item_mrf" name="item_mrf[]" value="{{$mrf}}" disabled="true">
 													    			</td>
 										    					</tr>
 									    					@endif
 								    					@endforeach
 								    					@endforeach
 								    				</table>
+								    			</td>
+								    			<td class="colspan-td">
+								    				<div class="middel-table">
+								    					<table>
+								    							@foreach($mrf_quantity as $mrf)
+								    						<tr>
+								    								<td width="30%">
+													    				<input type="text" class="form-control item_mrf" name="item_mrf[]" value="{{$mrf}}" disabled="true">
+													    			</td>
+								    						</tr>
+								    							@endforeach
+								    					</table>
+								    				</div>
 								    			</td>
 												
 											</tr>

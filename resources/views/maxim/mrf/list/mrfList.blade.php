@@ -23,8 +23,14 @@
 					<td>{{$value->booking_order_id}}</td>
 					<td>{{$value->mrf_id}}</td>
 					<td>{{Carbon\Carbon::parse($value->created_at)}}</td>
-					<td></td>
-					<td></td>
+					<td>{{$value->shipmentDate}}</td>
+					<td>
+						<form action="{{Route('mrf_list_action_task') }}" role="form" target="_blank">
+							<input type="hidden" name="mid" value="{{$value->mrf_id}}">
+							<input type="hidden" name="bid" value="{{$value->booking_order_id}}">
+							<button class="btn btn-success" target="_blank">View</button>
+						</form>
+					</td>
 				</tr>
 				@endforeach
 			</table>

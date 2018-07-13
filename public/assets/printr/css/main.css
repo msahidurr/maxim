@@ -75,3 +75,25 @@ ul li {
   border-right: 0;
 }
 
+.header-top-a .buyerName{
+    padding-left: 40px;
+  }
+  .valueGenarate table{
+    width: 100%;
+  }
+  .valueGenarate table tr td{
+    text-align: right;
+    padding-right: 5px;
+  }
+  .valueGenarate table tr td p{
+    font-weight: bold;
+  }
+  .mainBody table thead>th{
+    align: center;
+  }
+  .mainBody .grandTotal{
+    text-align: center;
+  }
+  .mainBody .grandTotal span{
+    font-weight: bold;
+  }

@@ -1,38 +1,37 @@
-@extends('maxim.layouts.layouts')
-@section('print-body')
+<?php $__env->startSection('print-body'); ?>
 
 <center>
 	<a href="#" onclick="myFunction()" class="print">Print & Preview</a>
 </center>
 
-@foreach($companyInfo as $value)
+<?php $__currentLoopData = $companyInfo; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 	<div class="row">
 		<div class="col-md-2 col-sm-12 col-xs-12">
-			@if($value->logo_allignment === "left")
-				@if(!empty($value->logo))
+			<?php if($value->logo_allignment === "left"): ?>
+				<?php if(!empty($value->logo)): ?>
 					<div class="pull-left">
-						<img src="/upload/{{$value->logo}}" height="100px" width="150px" />
+						<img src="/upload/<?php echo e($value->logo); ?>" height="100px" width="150px" />
 					</div>
-				@endif
-			@endif
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 		<div class="col-md-8 col-sm-12 col-xs-12" style="padding-left: 40px;">
-			<h2 align="center">{{ $value->header_title}}</h2>
+			<h2 align="center"><?php echo e($value->header_title); ?></h2>
 			<div align="center">
-				<p>OFFICE ADDRESS :  {{$value->address1}} {{$value->address2}} {{$value->address3}}</p>
+				<p>OFFICE ADDRESS :  <?php echo e($value->address1); ?> <?php echo e($value->address2); ?> <?php echo e($value->address3); ?></p>
 			</div>
 		</div>
 		<div class="col-md-2 col-sm-12 col-xs-12">
-			@if($value->logo_allignment === "right")
-				@if(!empty($value->logo))
+			<?php if($value->logo_allignment === "right"): ?>
+				<?php if(!empty($value->logo)): ?>
 					<div class="pull-right">
-						<img src="/upload/{{$value->logo}}" height="100px" width="150px" />
+						<img src="/upload/<?php echo e($value->logo); ?>" height="100px" width="150px" />
 					</div>
-				@endif
-			@endif
+				<?php endif; ?>
+			<?php endif; ?>
 		</div>
 	</div>
-@endforeach
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 <div class="row header-bottom">
 	<div class="col-md-12 header-bottom-b">
 		<span>PROFORM INVOICE</span>
@@ -41,31 +40,32 @@
 
 <div class="row body-top">
 	<div class="col-md-8 col-sm-8 col-xs-7 body-list">
-		@php($is=0)
-		@foreach($bookingDetails as $Details)
-			@for($is;$is <= 0;$is++)
+		<?php ($is=0); ?>
+		<?php $__currentLoopData = $bookingDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $Details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			<?php for($is;$is <= 0;$is++): ?>
 				<ul>
-					<li>Buyer : {{$Details->buyer_name}}</li>
-					<li>Company Name  : {{$Details->Company_name}}</li>
-					<li>Address : {{$Details->address_part1_invoice}}</li>
-					<li> {{$Details->address_part2_invoice}}
+					<li>Buyer : <?php echo e($Details->buyer_name); ?></li>
+					<li>Company Name  : <?php echo e($Details->Company_name); ?></li>
+					<li>Address : <?php echo e($Details->address_part1_invoice); ?></li>
+					<li> <?php echo e($Details->address_part2_invoice); ?>
+
 					</li>
-					<li>{{($formatTypes == 1001 )?'Contact ' :'Attn' }} : {{$Details->attention_invoice}}</li>
-					<li>{{($formatTypes == 1001 )?'Contact No ' :'Cell No' }} : {{$Details->mobile_invoice}}</li>
+					<li><?php echo e(($formatTypes == 1001 )?'Contact ' :'Attn'); ?> : <?php echo e($Details->attention_invoice); ?></li>
+					<li><?php echo e(($formatTypes == 1001 )?'Contact No ' :'Cell No'); ?> : <?php echo e($Details->mobile_invoice); ?></li>
 				</ul>
-			@endfor
-		@endforeach
+			<?php endfor; ?>
+		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 	</div>
 	
-	<div class="col-md-4 col-sm-4 col-xs-5 valueGenarate">
-		@php ($i=0)
-		@foreach ($bookingDetails as $details)
-			@for($i;$i <= 0;$i++)
+	<div class="col-md-4 col-sm-4 col-xs-5">
+		<?php ($i=0); ?>
+		<?php $__currentLoopData = $bookingDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			<?php for($i;$i <= 0;$i++): ?>
 				<table class="tables table-bordered" style="width: 100%;">
 					<tr>
 						<td colspan="2">
 							<div style="text-align: right;">
-								<p style="padding-left :5px;"> PI No : {{$details->booking_order_id}} </p>
+								<p style="padding-left :5px;"> PI No : <?php echo e($details->booking_order_id); ?> </p>
 							</div>
 						</td>
 					</tr>
@@ -73,13 +73,13 @@
 						<td width="50%" style="border-bottom-style:hidden;border-left-style:hidden;"> </td>
 						<td width="50%">
 							<div style="text-align: right;">
-								<p style="padding-left :5px;"> Date : {{Carbon\Carbon::parse($details->created_at)->format('Y-m-d')}}</p>
+								<p style="padding-left :5px;"> Date : <?php echo e(Carbon\Carbon::parse($details->created_at)->format('Y-m-d')); ?></p>
 							</div>
 						</td>
 					</tr>					
 				</table>
-			@endfor
-		@endforeach		
+			<?php endfor; ?>
+		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>		
 	</div>
 </div>
 
@@ -117,16 +117,16 @@
 <table class="table table-bordered">
 	<thead>
 	    <tr>
-	    	@if(1001 == $formatTypes)
-	    	@else
+	    	<?php if(1001 == $formatTypes): ?>
+	    	<?php else: ?>
 	    		<th width="">SL</th>
-	    	@endif
+	    	<?php endif; ?>
 	    	<th width="">PO / NO </th>
 	    	<th width="19%">Item code</th>
 	    	<th width="15%">Item no/ERP</th>
-	    	@if(1001 == $formatTypes)
+	    	<?php if(1001 == $formatTypes): ?>
 	    		<th width="">Color</th>
-	    	@endif
+	    	<?php endif; ?>
 	        <th width="">Descreption</th>
 	        <th width="">Qty / Pcs</th>
 	        <th width="">Unit Price / Pcs</th>
@@ -134,8 +134,8 @@
 	    </tr>
 	</thead>
 	<tbody>
-		@php($j=1)
-		@foreach ($bookingDetails as $Details)
+		<?php ($j=1); ?>
+		<?php $__currentLoopData = $bookingDetails; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $Details): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			<?php
 				$gmtsquantity = explode(',', $Details->quantity);
 				$totalQntyValue = 0;
@@ -153,27 +153,27 @@
 			?>
 
 			<tr>
-				@if(1001 == $formatTypes)
-	    		@else
-					<td>{{$j++}}</td>
-				@endif
-				<td>{{$Details->poCatNo}}</td>
-				<td width="19%">{{$Details->item_code}}</td>
-				<td width="15%">{{$Details->erp_code}}</td>
-				@if(1001 == $formatTypes)
+				<?php if(1001 == $formatTypes): ?>
+	    		<?php else: ?>
+					<td><?php echo e($j++); ?></td>
+				<?php endif; ?>
+				<td><?php echo e($Details->poCatNo); ?></td>
+				<td width="19%"><?php echo e($Details->item_code); ?></td>
+				<td width="15%"><?php echo e($Details->erp_code); ?></td>
+				<?php if(1001 == $formatTypes): ?>
 					<td>Color</td>
-				@endif
-				<td>{{$Details->item_description}}</td>
-				<td>{{$totalQntyValue}}</td>
-				<td>{{$Details->item_price}}</td>
-				<td>{{$totalPrice}}</td>
+				<?php endif; ?>
+				<td><?php echo e($Details->item_description); ?></td>
+				<td><?php echo e($totalQntyValue); ?></td>
+				<td><?php echo e($Details->item_price); ?></td>
+				<td><?php echo e($totalPrice); ?></td>
 			</tr>
-		@endforeach		
+		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>		
 			<tr>
-				<td colspan="{{$countTotalspan}}"> <center>{{(1003 == $formatTypes)?'TOTAL QTY & VALUE':'Total'}}</center></td>
-				<td>{{$totalAllqnty}}</td>
+				<td colspan="<?php echo e($countTotalspan); ?>"> <center><?php echo e((1003 == $formatTypes)?'TOTAL QTY & VALUE':'Total'); ?></center></td>
+				<td><?php echo e($totalAllqnty); ?></td>
 				<td></td>
-				<td>{{$totalUsdAmount}}</td>
+				<td><?php echo e($totalUsdAmount); ?></td>
 			</tr>
 	
 	</tbody>
@@ -236,9 +236,9 @@
 					<div style="text-align:;font-weight: bold;">
 						<?php if(sizeof($fractionUSD) == 1){ ?>
 
-						<span>1. TOTAL AMOUNT : USD : {{$amountInWordUsd}} {{(empty($amountInWordUsd))?'':'Only'}}</span>
+						<span>1. TOTAL AMOUNT : USD : <?php echo e($amountInWordUsd); ?> <?php echo e((empty($amountInWordUsd))?'':'Only'); ?></span>
 						<?php }else{?>
-						<span>1. TOTAL AMOUNT : USD : {{$amountInWordUsd}} And {{$fractionInWordUSD}} Cents Only</span>
+						<span>1. TOTAL AMOUNT : USD : <?php echo e($amountInWordUsd); ?> And <?php echo e($fractionInWordUSD); ?> Cents Only</span>
 						<?php }?>
 					</div>
 				</td>
@@ -247,9 +247,9 @@
 				<td>
 					<div style="text-align:;font-weight: bold;">
 						<?php if(sizeof($fractionBD) == 1){?>
-						<span>1. TOTAL AMOUNT : BDT : {{$amountInWordBD}} Only</span>
+						<span>1. TOTAL AMOUNT : BDT : <?php echo e($amountInWordBD); ?> Only</span>
 						<?php }else{?>
-						<span>1. TOTAL AMOUNT : BDT : {{$amountInWordBD}} And {{$fractionInWordBD}} Cents Only</span>
+						<span>1. TOTAL AMOUNT : BDT : <?php echo e($amountInWordBD); ?> And <?php echo e($fractionInWordBD); ?> Cents Only</span>
 						<?php }?>
 					</div>
 				</td>
@@ -291,49 +291,53 @@
 	</div>
 </div>
 
-@foreach ($footerData as $value)
-	@if(!empty($value->siginingPerson_2))
+<?php $__currentLoopData = $footerData; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+	<?php if(!empty($value->siginingPerson_2)): ?>
 		<div class="row">
 			<div class="col-md-12 col-xs-12" style="padding-bottom: 20px;">
 				<div class="col-md-8 col-xs-8" style="padding: 5px; padding-left: 50px;">
-					@if(!empty($value->siginingPersonSeal_2))
-						<img src="/upload/{{$value->siginingPersonSeal_2}}" height="100px" width="150px" />
-					@endif
+					<?php if(!empty($value->siginingPersonSeal_2)): ?>
+						<img src="/upload/<?php echo e($value->siginingPersonSeal_2); ?>" height="100px" width="150px" />
+					<?php endif; ?>
 
-					@if(!empty($value->siginingPerson_1))
+					<?php if(!empty($value->siginingPerson_1)): ?>
 						<div class="col-md-7 col-xs-7"  style="">
 							<div align="center" style="margin:auto;
 						    	border: 2px solid black;
 						    	padding: 5px;margin-top:30px;">
-								{{$value->siginingPerson_1}}
+								<?php echo e($value->siginingPerson_1); ?>
+
 							</div>
 						</div>
-					@endif
+					<?php endif; ?>
 				</div>
 				
 				<div class="col-md-4 col-xs-4"  style="">
 					<div align="center">
-						@if(!empty($value->siginingSignature_2))
-							<img src="/upload/{{$value->siginingSignature_2}}" height="100px" width="150px" />
-						@endif
+						<?php if(!empty($value->siginingSignature_2)): ?>
+							<img src="/upload/<?php echo e($value->siginingSignature_2); ?>" height="100px" width="150px" />
+						<?php endif; ?>
 					</div>
 
-					@if(!empty($value->siginingPerson_2))
+					<?php if(!empty($value->siginingPerson_2)): ?>
 						<div align="center" style="margin:auto;
 					    	border: 2px solid black;
 					    	padding: 5px;margin-top:30px;">
-							{{$value->siginingPerson_2}}
+							<?php echo e($value->siginingPerson_2); ?>
+
 						</div>
-					@endif
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
-	@endif
-@endforeach
+	<?php endif; ?>
+<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
 <script type="text/javascript">
 	function myFunction() {
 	    window.print();
 	}
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('maxim.layouts.layouts', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

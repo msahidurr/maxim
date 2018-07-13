@@ -92,7 +92,7 @@
 
 								<td>
 									<div class="form-group">
-										<input type="date" name="shipmentDate" class="form-control" placeholder="Shipment Date" title="Shipment Date">
+										<input type="date" name="shipmentDate" class="form-control" placeholder="Shipment Date" title="Shipment Date" required>
 									</div>
 								</td>
 

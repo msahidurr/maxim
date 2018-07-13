@@ -112,10 +112,16 @@ class ChallanController extends Controller
         }
       }
 
-      $combineUpdateData = array_combine($dbValue, $twoArray);
-      
-      foreach ($combineUpdateData as $keys => $datas) {
-        $finalData[] = $keys - $datas;  //finalData[] is same as twoArray[]
+      $combineUpdateDatas = $this->array_combine_($twoArray,$dbValue);
+
+      foreach ($combineUpdateDatas as $keys => $datas) {
+        if(sizeof($datas) > 1){
+          foreach ($datas as $value) {
+           $finalData[] = $value - $keys;
+          }
+        }else{
+        $finalData[] = $datas - $keys;  //finalData[] is same as twoArray[]
+      }
       }
 
       $tempp = self::array_combine_($oneArray, $finalData);

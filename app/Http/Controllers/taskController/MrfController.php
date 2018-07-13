@@ -29,8 +29,8 @@ class MrfController extends Controller
 	    return  $result;
 	}
     public function addMrf(Request $request){
-        
-        $datas = $request->all();
+      $datas = $request->all();
+      $booking_order_id = $request->booking_order_id;
       $allId = $datas['allId'];
       $product_qty = $datas['product_qty'];
 
@@ -45,6 +45,30 @@ class MrfController extends Controller
         $finalData = [];
         $tempValues = [];
 
+      /**
+      - This section check to one booking Challan value
+      - empty or not empty ( this mean challan complte).
+      - If empty all value then redirect create challan page.
+      **/
+
+      $length = sizeof($product_qty);
+      $count = 0;
+      foreach ($product_qty as $value) {
+        if($value == 0 || $value < 0 ){
+          $count++;
+        }
+      }
+
+      if($count == $length){
+        StatusMessage::create('erro_challan', 'Ops! Challan has been complte ');
+
+        return \Redirect()->Route('dashboard_view');
+      }
+
+      /**
+      - This Section create to concat all Get input
+      - value by item id and store $tempValue Array.
+      **/
 
       $temp = $this->array_combine_ ($allId ,$product_qty);
 
@@ -84,10 +108,15 @@ class MrfController extends Controller
         }
       }
 
-      $combineUpdateData = array_combine($dbValue, $product_qty);
-      
-      foreach ($combineUpdateData as $keys => $datas) {
-        $finalData[] = $keys - $datas;  //finalData[] is same as twoArray[]
+      $combineUpdateDatas = $this->array_combine_($product_qty,$dbValue);
+
+      foreach ($combineUpdateDatas as $keys => $datas) {
+        if(sizeof($datas) > 1){
+          foreach ($datas as $value) {
+           $finalData[] = $value - $keys;
+          }
+        }else{
+        $finalData[] = $datas - $keys;  //finalData[] is same as twoArray[]
       }
 
       $tempp = $this->array_combine_($allId, $finalData);
@@ -99,21 +128,20 @@ class MrfController extends Controller
           }
       }
 
-      /** Mrf value Insert **/
-
-      foreach ($tempValue as $key => $Minusvalues) {
-        $challanMinusValueInsert = MxpBookingChallan::find($key);
-        $challanMinusValueInsert->mrf_quantity = $Minusvalues;
-        $challanMinusValueInsert->save();
+      $makeOneArray = [];
+      foreach ($tempValue as $key => $value) {
+        $makeOneArray[$key]['mrf_quantity'] = $value;
+      }
+      foreach ($tempValues as $key => $value) {
+        $makeOneArray[$key]['item_quantity'] = $value;
       }
 
-      /** Item Quantity value Insert **/
-
-      foreach ($tempValues as $key => $Minusvalue) {
+      /** Quantity and Mrf value Insert **/
+      foreach ($makeOneArray as $key => $minusValues) {
         $challanMinusValueInsert = MxpBookingChallan::find($key);
-        $challanMinusValueInsert->item_quantity = $Minusvalue;
-        $challanMinusValueInsert->save();
-      }
+        $challanMinusValueInsert->item_quantity = $minusValues['item_quantity'];
+        $challanMinusValueInsert->mrf_quantity = $minusValues['mrf_quantity'];
+        $challanMinusValueInsert->update();
 
       $cc = MxpMrf::count();
       $count = str_pad($cc + 1, 4, 0, STR_PAD_LEFT);
@@ -128,6 +156,7 @@ class MrfController extends Controller
             $insertMrfValue->user_id = Auth::user()->user_id;
             $insertMrfValue->mrf_id = $mrf_id;
             $insertMrfValue->booking_order_id = $bookingChallanValue->booking_order_id;
+            $insertMrfValue->mrf_person_name = $request->mrf_person_name;
             $insertMrfValue->erp_code = $bookingChallanValue->erp_code;
             $insertMrfValue->item_code = $bookingChallanValue->item_code;
             $insertMrfValue->item_size = $bookingChallanValue->item_size;
@@ -138,12 +167,18 @@ class MrfController extends Controller
             $insertMrfValue->gmts_color = $bookingChallanValue->gmts_color;
             $insertMrfValue->orderDate = $bookingChallanValue->orderDate;
             $insertMrfValue->orderNo = $bookingChallanValue->orderNo;
-            $insertMrfValue->shipmentDate = $bookingChallanValue->shipmentDate;
+            $insertMrfValue->shipmentDate = $request->mrf_shipment_date;
             $insertMrfValue->poCatNo = $bookingChallanValue->poCatNo;
             // $insertMrfValue->status = $bookingChallanValue->status;
             $insertMrfValue->action = self::CREATE_MRF;
             $insertMrfValue->save();
         }
       }
+      $headerValue = DB::table("mxp_header")->where('header_type',11)->get();
+      $buyerDetails = DB::table("mxp_bookingBuyer_details")->where('booking_order_id',$booking_order_id)->get();
+      $footerData =[];
+      $mrfDeatils = DB::table('mxp_MRF_table')->where('mrf_id',$mrf_id)->get();
+
+      return view('maxim.mrf.mrfReportFile',compact('mrfDeatils','headerValue','buyerDetails','footerData'));
     }
 }

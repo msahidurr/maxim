@@ -22,8 +22,14 @@
 					<td><?php echo e($value->booking_order_id); ?></td>
 					<td><?php echo e($value->mrf_id); ?></td>
 					<td><?php echo e(Carbon\Carbon::parse($value->created_at)); ?></td>
-					<td></td>
-					<td></td>
+					<td><?php echo e($value->shipmentDate); ?></td>
+					<td>
+						<form action="<?php echo e(Route('mrf_list_action_task')); ?>" role="form" target="_blank">
+							<input type="hidden" name="mid" value="<?php echo e($value->mrf_id); ?>">
+							<input type="hidden" name="bid" value="<?php echo e($value->booking_order_id); ?>">
+							<button class="btn btn-success" target="_blank">View</button>
+						</form>
+					</td>
 				</tr>
 				<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			</table>
