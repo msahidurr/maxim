@@ -275,5 +275,6 @@ return [
 'new_mrf_create_label' => 'নতুন এমআরএফ তৈরি করুন',
 'create_button_lable' => 'সৃষ্টি',
 'mxp_menu_mrf_list' => 'এমআরএফ তালিকা',
+'mxp_menu_challan_list' => 'Challan List',
 
 ];
